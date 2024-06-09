@@ -8,19 +8,26 @@ class SwapPage extends StatefulWidget {
   State<SwapPage> createState() => _SwapPageState();
 }
 
-class _SwapPageState extends State<SwapPage> {
+class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          color: Colors.yellow,
-          width: double.infinity,
-          height: MediaQuery.of(context).padding.top,
-        ),
-        Text('data')
-      ],
+    return Scaffold(
+      appBar: AppBar(toolbarHeight: 0, backgroundColor: Colors.yellow,),
+      body: Column(
+        children: [
+          Container(
+            color: Colors.yellow,
+            width: double.infinity,
+            height: MediaQuery.of(context).padding.top,
+          ),
+          Text('data')
+        ],
+      ),
     );
     }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
