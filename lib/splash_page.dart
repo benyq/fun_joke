@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fun_joke/home_page.dart';
-import 'package:fun_joke/swap_page.dart';
-import 'package:fun_joke/ui/user/login/login_page.dart';
+import 'package:fun_joke/ui/app_theme.dart';
+import 'package:fun_joke/ui/home/home_page.dart';
+import 'package:fun_joke/ui/user/mine/mine_page.dart';
+import 'package:fun_joke/ui/swap/swap_page.dart';
+
+import 'dart:math' as math;
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -24,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
     HomePage(),
     SwapPage(),
     SwapPage(),
-    LoginPage(),
+    MinePage(),
   ];
 
   late final PageController _pageController;
@@ -57,55 +60,61 @@ class _SplashPageState extends State<SplashPage> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Consumer(builder: (context, ref, child) {
-        return FloatingActionButton(child: Icon(Icons.add), onPressed: (){
+      floatingActionButton: Transform.translate(
+        offset: const Offset(0, -5),
+        child: FloatingActionButton(child: Icon(Icons.add), onPressed: (){
 
-        }, shape: CircleBorder(),);
-      },),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          children: [
-            Expanded(child: _BottomTabButton(
-              icon: Icons.home,
-              label: '首页',
-              isSelected: _selectedIndex == TYPE_HOME,
-              onTap: (){
-                _onItemChanged(TYPE_HOME);
-              },
-            ),),
-            Expanded(
-              child: _BottomTabButton(
-                icon: Icons.swap_vert,
-                label: '划一划',
-                isSelected: _selectedIndex == TYPE_SWAP,
+        }, shape: CircleBorder(), elevation: 0,),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 70,
+        child: BottomAppBar(
+          notchMargin: 5,
+          shape: const CircularNotchedRectangle(),
+          color: Colors.white,
+          child: Row(
+            children: [
+              Expanded(child: _BottomTabButton(
+                icon: Icons.home,
+                label: '首页',
+                isSelected: _selectedIndex == TYPE_HOME,
                 onTap: (){
-                  _onItemChanged(TYPE_SWAP);
+                  _onItemChanged(TYPE_HOME);
                 },
+              ),),
+              Expanded(
+                child: _BottomTabButton(
+                  icon: Icons.swap_vert,
+                  label: '划一划',
+                  isSelected: _selectedIndex == TYPE_SWAP,
+                  onTap: (){
+                    _onItemChanged(TYPE_SWAP);
+                  },
+                ),
               ),
-            ),
-            const SizedBox(width: 48), // 占位，以便 FloatingActionButton 不遮挡
-            Expanded(
-              child: _BottomTabButton(
-                icon: Icons.message,
-                label: '消息',
-                isSelected: _selectedIndex == TYPE_MESSAGE,
-                onTap: (){
-                  _onItemChanged(TYPE_MESSAGE);
-                },
+              const SizedBox(width: 48), // 占位，以便 FloatingActionButton 不遮挡
+              Expanded(
+                child: _BottomTabButton(
+                  icon: Icons.message,
+                  label: '消息',
+                  isSelected: _selectedIndex == TYPE_MESSAGE,
+                  onTap: (){
+                    _onItemChanged(TYPE_MESSAGE);
+                  },
+                ),
               ),
-            ),
-            Expanded(
-              child: _BottomTabButton(
-                icon: Icons.person,
-                label: '我的',
-                isSelected: _selectedIndex == TYPE_MINE,
-                onTap: (){
-                  _onItemChanged(TYPE_MINE);
-                },
+              Expanded(
+                child: _BottomTabButton(
+                  icon: Icons.person,
+                  label: '我的',
+                  isSelected: _selectedIndex == TYPE_MINE,
+                  onTap: (){
+                    _onItemChanged(TYPE_MINE);
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -144,15 +153,73 @@ class _BottomTabButton extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: isSelected ? Colors.blue : Colors.grey,
+            color: isSelected ? Colors.blue : Colors.black,
           ),
           Text(
             label,
             style: TextStyle(
-              color: isSelected ? Colors.blue : Colors.grey,
+              color: isSelected ? Colors.blue : Colors.black,
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+
+class BottomNavigationView extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(0.0, -10),
+      child: Container(
+        margin: EdgeInsets.only(left: 20, right: 20),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(30),
+          ),
+          child: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.accessibility_new),
+                  ],
+                ),
+                _buildMiddleTabItem(),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.accessibility_new),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMiddleTabItem() {
+    return Expanded(
+      child: SizedBox(
+        height: 60,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 24),
+            Text(''),
+          ],
+        ),
       ),
     );
   }

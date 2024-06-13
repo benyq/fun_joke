@@ -1,12 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fun_joke/splash_page.dart';
+import 'package:fun_joke/ui/app_theme.dart';
+import 'package:fun_joke/ui/user/login/login_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   runApp(const ProviderScope(child: MyApp()));
 }
+
+final _routes = {
+  '/': (context) => const SplashPage(),
+  '/login': (context) => const LoginPage(),
+};
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, background: appDefaultBackgroundColor),
         useMaterial3: true,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
@@ -26,7 +35,17 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: const SplashPage(),
+      onGenerateRoute: (settings) {
+        final route = _routes[settings.name];
+        if (route == null) return null;
+        return CupertinoPageRoute(
+          builder: (context) {
+            return route.call(context);
+          },
+        );
+      },
+      initialRoute: '/',
+      routes: _routes,
     );
   }
 }

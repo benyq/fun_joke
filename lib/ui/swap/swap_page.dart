@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fun_joke/ui/user/login/login_page.dart';
 
 class SwapPage extends StatefulWidget {
   const SwapPage({super.key});
@@ -21,7 +22,11 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin{
             width: double.infinity,
             height: MediaQuery.of(context).padding.top,
           ),
-          Text('data')
+          InkWell(
+            onTap: (){
+              Navigator.of(context).pushNamed('/login');
+            },
+              child: Text('data'))
         ],
       ),
     );
