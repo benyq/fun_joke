@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fun_joke/ui/app_theme.dart';
 import 'package:fun_joke/ui/home/home_page.dart';
+import 'package:fun_joke/ui/message/messsage_page.dart';
 import 'package:fun_joke/ui/user/mine/mine_page.dart';
 import 'package:fun_joke/ui/swap/swap_page.dart';
 
@@ -26,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   final pages = const [
     HomePage(),
     SwapPage(),
-    SwapPage(),
+    MessagePage(),
     MinePage(),
   ];
 
@@ -47,8 +48,8 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('splash page build');
     return Scaffold(
+      extendBody: true,
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -60,12 +61,9 @@ class _SplashPageState extends State<SplashPage> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Transform.translate(
-        offset: const Offset(0, -5),
-        child: FloatingActionButton(child: Icon(Icons.add), onPressed: (){
+      floatingActionButton: FloatingActionButton(child: Icon(Icons.add), onPressed: (){
 
-        }, shape: CircleBorder(), elevation: 0,),
-      ),
+      }, shape: CircleBorder(), elevation: 0,),
       bottomNavigationBar: SizedBox(
         height: 70,
         child: BottomAppBar(
