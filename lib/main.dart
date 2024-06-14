@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/splash_page.dart';
-import 'package:fun_joke/ui/app_theme.dart';
-import 'package:fun_joke/ui/user/login/login_page.dart';
+import 'package:fun_joke/business/app_theme.dart';
+import 'package:fun_joke/business/user/login/login_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

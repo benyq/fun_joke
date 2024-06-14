@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fun_joke/ui/app_theme.dart';
-import 'package:fun_joke/ui/home/home_page.dart';
-import 'package:fun_joke/ui/message/messsage_page.dart';
-import 'package:fun_joke/ui/user/mine/mine_page.dart';
-import 'package:fun_joke/ui/swap/swap_page.dart';
-
-import 'dart:math' as math;
+import 'package:fun_joke/business/home/home_page.dart';
+import 'package:fun_joke/business/message/messsage_page.dart';
+import 'package:fun_joke/business/user/mine/mine_page.dart';
+import 'package:fun_joke/business/swap/swap_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

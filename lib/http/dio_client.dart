@@ -11,20 +11,23 @@ const String ACCEPT = "accept";
 const String AUTHORIZATION = "authorization";
 const String DEFAULT_LANGUAGE = "en";
 const String TOKEN = "Bearer token";
-const String BASE_URL = "https://wpapi.ducafecat.tech";
+const String BASE_URL = "http://tools.cretinzp.com";
 
-class HttpUtil {
-  static final HttpUtil _instance = HttpUtil._internal();
 
-  factory HttpUtil() => _instance;
+class DioClient {
+  static final DioClient _instance = DioClient._internal();
+
+  factory DioClient() => _instance;
 
   late Dio _dio;
+  Dio get dio => _dio;
 
-  HttpUtil._internal() {
+  DioClient._internal() {
     Map<String, String> headers = {
       CONTENT_TYPE: APPLICATION_JSON,
       ACCEPT: APPLICATION_JSON,
-      DEFAULT_LANGUAGE: DEFAULT_LANGUAGE
+      DEFAULT_LANGUAGE: DEFAULT_LANGUAGE,
+      "project_token": "0444ECDFEB4847B7A794FC2638342AE2"
     };
 
     var options = BaseOptions(

@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:fun_joke/ui/user/login/login_state.dart';
+import 'package:fun_joke/business/user/login/login_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_view_model.g.dart';
@@ -9,7 +8,7 @@ class LoginPageVM extends _$LoginPageVM {
 
   @override
   LoginState build()  {
-    return LoginState(loginType: LoginType.password);
+    return LoginState(loginType: LoginType.verificationCode);
   }
 
   void toggleLoginType() {

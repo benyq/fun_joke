@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_joke/ui/app_theme.dart';
-import 'package:fun_joke/ui/home/follow_page.dart';
+import 'package:fun_joke/business/app_theme.dart';
+import 'package:fun_joke/business/home/follow_page.dart';
+import 'package:fun_joke/business/home/recommend/recommend_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage>
         backgroundColor: appDefaultBackgroundColor, toolbarHeight: 0,),
       body: DefaultTabController(
         length: 5,
+        initialIndex: 1,
         child: Column(
           children: [
             Container(
@@ -78,7 +80,7 @@ class _HomePageState extends State<HomePage>
             Expanded(
                 child: TabBarView(children: [
                   FollowPage(),
-                  FollowPage(),
+                  RecommendPage(),
                   FollowPage(),
                   FollowPage(),
                   FollowPage(),
