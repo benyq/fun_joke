@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fun_joke/business//user/agreement/agreement_page.dart';
 import 'package:fun_joke/business/user/login/login_view_model.dart';
 
@@ -39,8 +40,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final viewModel = ref.read(loginPageVMProvider.notifier);
     final loginByPassword = ref.watch(loginPageVMProvider.select((it) => it.isPassword));
     final loginText = loginByPassword ? '验证码登录': '密码登录';
+    ref.listen(loginPageVMProvider.select((value) => value.isCountDown), (previous, next) {
+        print('previous: $previous, next: $next');
+    });
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.white, toolbarHeight: 0,),
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
         child: Column(
@@ -90,6 +95,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ) : TextField(
                       controller: _verificationCodeController,
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         hintText: '请输入验证码',
                         border: InputBorder.none,
@@ -108,7 +114,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                       InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          final phone = _phoneController.text;
+                          if (phone.length != 11) {
+                            // DialogUtil.showToast('请输入正确的手机号');
+                            return;
+                          }
+                          viewModel.getVerificationCode(phone);
+                        },
                         child: const Text('获取验证码'),
                       ),
                     ],),

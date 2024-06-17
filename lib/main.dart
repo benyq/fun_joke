@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fun_joke/splash_page.dart';
-import 'package:fun_joke/business/app_theme.dart';
 import 'package:fun_joke/business/user/login/login_page.dart';
 
 void main() {
@@ -50,6 +50,8 @@ class MyApp extends StatelessWidget {
         },
         initialRoute: '/',
         routes: _routes,
+        builder: FlutterSmartDialog.init(),
+        navigatorObservers: [FlutterSmartDialog.observer],
       ),
     );
   }
