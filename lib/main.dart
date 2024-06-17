@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: const ColorScheme.light(
+              surface: Colors.white
+          ),
           useMaterial3: true,
           pageTransitionsTheme: const PageTransitionsTheme(
             builders: {

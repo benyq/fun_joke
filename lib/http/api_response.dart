@@ -10,7 +10,7 @@ class ApiResponse<T> {
 
   ApiResponse({required this.msg, required this.code, this.data});
 
-  bool get isSuccess => code == 200 && data != null;
+  bool get isSuccess => code == 200;
 
   factory ApiResponse.fromJson(
       Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>

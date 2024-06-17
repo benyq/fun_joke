@@ -19,7 +19,7 @@ abstract class JokeService {
 
 
   /// 获取登录验证码
-  @POST('/user/login/get_code')
+  @POST('jokes/user/login/get_code')
   @FormUrlEncoded()
   Future<ApiResponse<dynamic>> getLoginVerifyCode(@Field() String phone);
 }

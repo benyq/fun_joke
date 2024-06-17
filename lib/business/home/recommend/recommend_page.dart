@@ -7,17 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/business/home/recommend/recommend_view_model.dart';
 import 'package:fun_joke/models/joke_detail_model.dart';
 import 'package:fun_joke/utils/asset_util.dart';
+import 'package:fun_joke/utils/media_util.dart';
 
 class RecommendPage extends ConsumerStatefulWidget {
   const RecommendPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _RecommendPageState();
-
 }
 
-class _RecommendPageState extends ConsumerState<RecommendPage> {
-
+class _RecommendPageState extends ConsumerState<RecommendPage> with AutomaticKeepAliveClientMixin {
   late RecommendVM _vm;
 
   @override
@@ -75,7 +74,7 @@ class _RecommendPageState extends ConsumerState<RecommendPage> {
                   Text(joke.user.nickName),
                   Text(
                     joke.user.signature,
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ],
               ),
@@ -83,12 +82,13 @@ class _RecommendPageState extends ConsumerState<RecommendPage> {
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {},
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     Icons.add,
                     color: Colors.blue,
+                    size: 15,
                   ),
                   Text(
                     '关注',
@@ -97,24 +97,34 @@ class _RecommendPageState extends ConsumerState<RecommendPage> {
                 ],
               ),
             ),
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz))
+            IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
           ],
         ),
+        SizedBox(height: 10.h,),
         Builder(builder: (context) {
           if (joke.joke.type == 1) {
             return _contentText(context, joke.joke);
+          } if (joke.joke.type == 2) {
+            return _contentImage(context, joke.joke);
           } else {
             return Text('Hello');
           }
         }),
+        SizedBox(height: 10.h,),
         Row(
           children: [
-            Expanded(child: Center(child: _jokeInfoItem(Icons.favorite_border, '1', () {}))),
-            Expanded(child: Center(child: _jokeInfoItem(Icons.report, '2', () {}))),
-            Expanded(child: Center(child: _jokeInfoItem(Icons.comment, '3', () {}))),
-            Expanded(child: Center(child: _jokeInfoItem(Icons.share, '4', () {}))),
+            Expanded(
+                child: Center(
+                    child: _jokeInfoItem(Icons.favorite_border, joke.info.likeNum.toString(), () {}))),
+            Expanded(
+                child: Center(child: _jokeInfoItem(Icons.report, joke.info.disLikeNum.toString(), () {}))),
+            Expanded(
+                child: Center(child: _jokeInfoItem(Icons.comment, joke.info.commentNum.toString(), () {}))),
+            Expanded(
+                child: Center(child: _jokeInfoItem(Icons.share, joke.info.shareNum.toString(), () {}))),
           ],
-        )
+        ),
+        SizedBox(height: 10.h,),
       ],
     );
   }
@@ -128,11 +138,12 @@ class _RecommendPageState extends ConsumerState<RecommendPage> {
         children: [
           Icon(
             iconData,
-            size: 25.w,
+            size: 20.w,
           ),
+          SizedBox(width: 5.w,),
           Text(
-            '',
-            style: TextStyle(color: Colors.black),
+            value,
+            style: TextStyle(color: Colors.black, fontSize: 13),
           )
         ],
       ),
@@ -140,14 +151,22 @@ class _RecommendPageState extends ConsumerState<RecommendPage> {
   }
 
   Widget _contentText(BuildContext context, Joke joke) {
-    return Text(joke.content);
+    return Text(joke.content, style: const TextStyle(color: Colors.black),);
   }
 
   Widget _contentImage(BuildContext context, Joke joke) {
-    return Text(joke.content);
+    var imgUrls = joke.imageUrl.split(',');
+    var first = imgUrls[0];
+    return ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: CachedNetworkImage(imageUrl: decodeMediaUrl(first)));
   }
 
   Widget _contentVideo(BuildContext context, Joke joke) {
     return Text(joke.content);
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
 }

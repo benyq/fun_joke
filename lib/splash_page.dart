@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/business/home/home_page.dart';
 import 'package:fun_joke/business/message/messsage_page.dart';
 import 'package:fun_joke/business/user/mine/mine_page.dart';
@@ -61,7 +62,7 @@ class _SplashPageState extends State<SplashPage> {
 
       }, shape: CircleBorder(), elevation: 0,),
       bottomNavigationBar: SizedBox(
-        height: 70,
+        height: 90.h,
         child: BottomAppBar(
           notchMargin: 5,
           shape: const CircularNotchedRectangle(),

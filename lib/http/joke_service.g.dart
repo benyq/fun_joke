@@ -74,7 +74,7 @@ class _JokeService implements JokeService {
     )
             .compose(
               _dio.options,
-              '/user/login/get_code',
+              'jokes/user/login/get_code',
               queryParameters: queryParameters,
               data: _data,
             )

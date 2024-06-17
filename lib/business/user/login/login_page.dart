@@ -117,7 +117,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         onTap: (){
                           final phone = _phoneController.text;
                           if (phone.length != 11) {
-                            // DialogUtil.showToast('请输入正确的手机号');
+                            SmartDialog.showToast('请输入正确的手机号');
                             return;
                           }
                           viewModel.getVerificationCode(phone);
@@ -153,9 +153,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
               ],
             ),
-            const Expanded(
-              flex: 1,
-                child: SizedBox.shrink()),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
               child: Text.rich(TextSpan(
@@ -182,7 +180,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ]
               )),
-            )
+            ),
           ],
         ),
       ),

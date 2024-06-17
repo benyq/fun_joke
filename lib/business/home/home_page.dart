@@ -15,8 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with KeepAliveParentDataMixin, TickerProviderStateMixin {
-  final List<String> _tabs = ['哈哈哈1', '哈哈哈2', '哈哈哈3', '哈哈哈4', '哈哈哈5'];
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
 
   @override
   void initState() {
@@ -30,6 +29,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appDefaultBackgroundColor, toolbarHeight: 0,),
@@ -92,9 +92,6 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-  void detach() {}
-
-  @override
-  bool get keptAlive => true;
+  bool get wantKeepAlive => true;
 }
 
