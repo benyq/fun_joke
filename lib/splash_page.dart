@@ -62,11 +62,12 @@ class _SplashPageState extends State<SplashPage> {
 
       }, shape: CircleBorder(), elevation: 0,),
       bottomNavigationBar: SizedBox(
-        height: 90.h,
+        height: 65.h,
         child: BottomAppBar(
           notchMargin: 5,
           shape: const CircularNotchedRectangle(),
           color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: Row(
             children: [
               Expanded(child: _BottomTabButton(

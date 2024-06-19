@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fun_joke/business//user/agreement/agreement_page.dart';
+import 'package:fun_joke/business/user/login/verify_code_input.dart';
+import 'package:fun_joke/business/user/login/login_state.dart';
 import 'package:fun_joke/business/user/login/login_view_model.dart';
+import 'package:fun_joke/utils/joke_log.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -16,32 +20,45 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
 
   late TextEditingController _phoneController;
-  late TextEditingController _passwordController;
-  late TextEditingController _verificationCodeController;
+
+  bool isCodeEnabled = false;
+  bool isLoginEnabled = false;
+
+  String _code = "";
 
   @override
   void initState() {
     super.initState();
-    _phoneController = TextEditingController();
-    _passwordController = TextEditingController();
-    _verificationCodeController = TextEditingController();
+    final phone = ref.read(loginPageVMProvider.select((value) => value.phoneNumber));
+    _phoneController = TextEditingController(text: phone)..addListener(() {
+      setState(() {
+        isCodeEnabled = _phoneController.text.length == 11;
+      });
+    });
   }
 
   @override
   void dispose() {
     _phoneController.dispose();
-    _passwordController.dispose();
-    _verificationCodeController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.read(loginPageVMProvider.notifier);
-    final loginByPassword = ref.watch(loginPageVMProvider.select((it) => it.isPassword));
-    final loginText = loginByPassword ? '验证码登录': '密码登录';
-    ref.listen(loginPageVMProvider.select((value) => value.isCountDown), (previous, next) {
-        print('previous: $previous, next: $next');
+    final pageType = ref.watch(loginPageVMProvider.select((value) => value.pageType));
+    ref.listen(loginPageVMProvider.select((value) => value.loading), (previous, next) {
+      if (next) {
+        SmartDialog.showLoading(msg: "处理中...");
+      } else {
+        SmartDialog.dismiss();
+      }
+    });
+    ref.listen(loginPageVMProvider.select((value) => value.loginSuccess), (previous, next) {
+      JokeLog.i('loginSuccess: previous: $Element.pre(), next: $next');
+      if (next) {
+        Navigator.pop(context);
+      }
     });
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.white, toolbarHeight: 0,),
@@ -57,100 +74,95 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 Navigator.pop(context);
               },
             ),
-            const SizedBox(height: 20,),
-            const Text('验证码登录', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-            const SizedBox(height: 20,),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                controller: _phoneController,
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  hintText: '请输入手机号',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: loginByPassword ? TextField(
-                      controller: _passwordController,
-                      decoration: const InputDecoration(
-                        hintText: '请输入密码',
-                        border: InputBorder.none,
+            Builder(builder: (context) {
+              if (pageType == LoginPageType.code) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 40,),
+                    const Text('请输入手机号', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 10,),
+                    const Text('未注册的手机号验证后将自动登录', style: const TextStyle(fontSize: 12, color: Colors.grey),),
+                    const SizedBox(height: 40,),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
-                    ) : TextField(
-                      controller: _verificationCodeController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: '请输入验证码',
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: !loginByPassword,
-                    child: Row(children: [
-                      Container(
-                        width: 1,
-                        height: 20,
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const DecoratedBox(
-                            decoration: BoxDecoration(color: Colors.grey)
+                      height: 50.h,
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: TextField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        style: TextStyle(fontSize: 20),
+                        decoration: const InputDecoration(
+                          hintText: '请输入手机号',
+                          border: InputBorder.none,
                         ),
                       ),
-                      InkWell(
-                        onTap: (){
-                          final phone = _phoneController.text;
-                          if (phone.length != 11) {
-                            SmartDialog.showToast('请输入正确的手机号');
-                            return;
-                          }
+                    ),
+                    const SizedBox(height: 20,),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50.h,
+                      child: ElevatedButton(
+                        onPressed: isCodeEnabled ? (){
+                          var phone = _phoneController.text;
                           viewModel.getVerificationCode(phone);
-                        },
-                        child: const Text('获取验证码'),
+                        } : null,
+                        style: ElevatedButton.styleFrom(
+                          animationDuration: const Duration(milliseconds: 0),
+                        ),
+                        child: const Text('获取验证码', style: TextStyle(fontSize: 18),),
                       ),
-                    ],),
-                  )
-                ],
-              ),
-            ),
+                    ),
+                  ],
+                );
+              }else if (pageType == LoginPageType.login) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 40,),
+                    const Text('请输入验证码', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 10,),
+                    const Text('请关注微信公众号【Cretin的开发之路】，在输入框输入【#13】获取验证码', style: const TextStyle(fontSize: 12, color: Colors.grey),),
+                    const SizedBox(height: 40,),
+                    VerifyCodeInput(
+                      height: 48.w,
+                      onSubmit: (value) {
+                        _code = value;
+                        setState(() {
+                          isLoginEnabled = value.length == 6;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20,),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50.h,
+                      child: ElevatedButton(
+                        onPressed: isLoginEnabled ? (){
+                           viewModel.login(_code);
+                        } : null,
+                        style: ElevatedButton.styleFrom(
+                          animationDuration: const Duration(milliseconds: 0),
+                        ),
+                        child: const Text('登录', style: TextStyle(fontSize: 18),),
+                      ),
+                    ),
+                  ],
+                );
+              }else {
+                return const SizedBox();
+              }
+            }),
             const SizedBox(height: 20,),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: (){},
-                child: const Text('登录'),
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: (){
-                    viewModel.toggleLoginType();
-                  },
-                  child: Text(loginText, style: const TextStyle(color: Colors.blue, fontSize: 16)),
-                ),
-                GestureDetector(
-                  onTap: (){},
-                  child: const Text('遇到问题？', style: TextStyle(color: Colors.blue, fontSize: 16)),
-                ),
+                 Spacer(),
+                 Text('遇到问题？', style: TextStyle(color: Colors.blue, fontSize: 16)),
               ],
             ),
             const Spacer(),

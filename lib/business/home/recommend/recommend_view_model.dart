@@ -14,7 +14,7 @@ class RecommendVM extends _$RecommendVM {
   }
 int s = 0;
   Future<void> refresh() async{
-    var api = ref.read(apiProvider);
+    var api = await ref.read(apiProvider);
     var response = await api.getRecommendList();
     if (response.isSuccess) {
       state = state.copyWith(jokeList: response.data!, size: s++);
@@ -24,7 +24,7 @@ int s = 0;
   }
 
   Future<void> loadMore()async {
-    var api = ref.read(apiProvider);
+    var api = await ref.read(apiProvider);
     var response = await api.getRecommendList();
     if (response.isSuccess) {
       state = state.copyWith(jokeList: state.jokeList + response.data!);

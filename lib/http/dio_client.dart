@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fun_joke/app_providers/user_service.dart';
 import 'package:fun_joke/models/error_message_model.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -76,10 +77,10 @@ class RequestInterceptors extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // super.onRequest(options, handler);
 
-    // http header 头加入 Authorization
-    // if (UserService.to.hasToken) {
-    //   options.headers['Authorization'] = 'Bearer ${UserService.to.token}';
-    // }
+    // http header 头加入 token
+    if (UserService.instance.hasToken) {
+      options.headers['token'] = UserService.instance.token;
+    }
 
     return handler.next(options);
     // 如果你想完成请求并返回一些自定义数据，你可以resolve一个Response对象 `handler.resolve(response)`。

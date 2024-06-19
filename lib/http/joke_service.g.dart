@@ -13,7 +13,7 @@ class _JokeService implements JokeService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://tools.cretinzp.com/';
+    baseUrl ??= 'http://tools.cretinzp.com/jokes/';
   }
 
   final Dio _dio;
@@ -37,7 +37,7 @@ class _JokeService implements JokeService {
     )
             .compose(
               _dio.options,
-              'jokes/home/recommend',
+              'home/recommend',
               queryParameters: queryParameters,
               data: _data,
               cancelToken: cancelToken,
@@ -74,7 +74,7 @@ class _JokeService implements JokeService {
     )
             .compose(
               _dio.options,
-              'jokes/user/login/get_code',
+              'user/login/get_code',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -86,6 +86,43 @@ class _JokeService implements JokeService {
     final value = ApiResponse<dynamic>.fromJson(
       _result.data!,
       (json) => json as dynamic,
+    );
+    return value;
+  }
+
+  @override
+  Future<ApiResponse<LoginModel>> loginByCode(
+    String phone,
+    String code,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'phone': phone,
+      'code': code,
+    };
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ApiResponse<LoginModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'application/x-www-form-urlencoded',
+    )
+            .compose(
+              _dio.options,
+              'user/login/code',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ApiResponse<LoginModel>.fromJson(
+      _result.data!,
+      (json) => LoginModel.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }

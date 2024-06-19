@@ -1,24 +1,29 @@
 class LoginState {
-  final LoginType loginType;
-  final bool isCountDown;
+  final LoginPageType pageType;
+  final String phoneNumber;
+  final bool loading;
+  final bool loginSuccess;
 
-  LoginState({required this.loginType, this.isCountDown = false});
+  LoginState({required this.pageType, this.phoneNumber = '', this.loading = false, this.loginSuccess = false});
 
-  bool get isPassword => loginType == LoginType.password;
 
   LoginState copyWith({
-    LoginType? loginType,
-    bool? isCountDown,
+    LoginPageType? pageType,
+    String? phoneNumber,
+    bool? loading,
+    bool? loginSuccess,
   }) {
     return LoginState(
-      loginType: loginType ?? this.loginType,
-      isCountDown: isCountDown ?? this.isCountDown,
+      pageType: pageType ?? this.pageType,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      loading: loading ?? this.loading,
+      loginSuccess: loginSuccess ?? this.loginSuccess,
     );
   }
 }
 
 
-enum LoginType {
-  password,
-  verificationCode
+enum LoginPageType {
+  code,
+  login
 }
