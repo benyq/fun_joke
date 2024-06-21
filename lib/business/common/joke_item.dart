@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/business/common/circle_avatar_widget.dart';
+import 'package:fun_joke/business/common/joke_video_player.dart';
 import 'package:fun_joke/business/common/photo_preview/photo_preivew_page.dart';
 import 'package:fun_joke/models/joke_detail_model.dart';
 import 'package:fun_joke/utils/joke_log.dart';
@@ -236,6 +237,12 @@ class JokeItemWidget extends StatelessWidget {
   }
 
   Widget _contentVideo(BuildContext context, Joke joke) {
-    return Text(joke.content);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(joke.content),
+        JokeVideoPlayer(videoUrl: getTestVideoInfo()['videoUrl'],)
+      ],
+    );
   }
 }

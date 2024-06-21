@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/app_providers/user_service.dart';
 import 'package:fun_joke/business/home/home_page.dart';
-import 'package:fun_joke/business/joke/add_joke/add_joke_page.dart';
+import 'package:fun_joke/business/joke/publish_joke/publish_joke_page.dart';
 import 'package:fun_joke/business/message/messsage_page.dart';
 import 'package:fun_joke/business/user/mine/mine_page.dart';
 import 'package:fun_joke/business/swap/swap_page.dart';
@@ -130,12 +130,15 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _showAddJokePage() {
-    showMaterialModalBottomSheet(context: context,
-        enableDrag: false,
-        duration: const Duration(milliseconds: 300),
-        builder: (context){
-      return const AddJokePage();
-    });
+    Navigator.of(context).push(PageRouteBuilder(pageBuilder: (context, anim, secAnim) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, 1),
+          end: Offset.zero,
+        ).animate(anim),
+        child: const PublishJokePage(),
+      );
+    }));
   }
 
 }
