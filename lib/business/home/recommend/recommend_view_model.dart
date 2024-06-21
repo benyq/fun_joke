@@ -5,25 +5,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'recommend_view_model.g.dart';
 
-
 @riverpod
 class RecommendVM extends _$RecommendVM {
   @override
-  RecommendState build()  {
+  RecommendState build() {
     return RecommendState([], 0);
   }
-int s = 0;
-  Future<void> refresh() async{
+
+  int s = 0;
+
+  Future<void> refresh() async {
     var api = await ref.read(apiProvider);
     var response = await api.getRecommendList();
     if (response.isSuccess) {
       state = state.copyWith(jokeList: response.data!, size: s++);
-    }else {
+    } else {
       debugPrint('refresh error');
     }
   }
 
-  Future<void> loadMore()async {
+  Future<void> loadMore() async {
     var api = await ref.read(apiProvider);
     var response = await api.getRecommendList();
     if (response.isSuccess) {

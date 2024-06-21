@@ -86,7 +86,7 @@ class Joke {
   String videoUrl;
   int videoTime;
   String? videoSize;
-  dynamic imageSize;
+  String? imageSize;
   String auditMsg;
 
   Joke({

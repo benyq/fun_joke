@@ -1,16 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fun_joke/app_providers/user_provider/user_provider.dart';
+import 'package:fun_joke/app_providers/user_provider/user_state.dart';
+import 'package:fun_joke/business/user/mine/mine_view_model.dart';
 import 'package:fun_joke/utils/asset_util.dart';
 
 const default_bg = Color(0xFFEDEDED);
 
-class MinePage extends StatefulWidget {
+class MinePage extends ConsumerStatefulWidget {
   const MinePage({super.key});
 
   @override
-  State<MinePage> createState() => _MinePageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MinePageState();
 }
 
-class _MinePageState extends State<MinePage> {
+class _MinePageState extends ConsumerState<MinePage> {
   late VoidCallback _loginAction;
 
   @override
@@ -19,10 +24,14 @@ class _MinePageState extends State<MinePage> {
     _loginAction = () {
       Navigator.pushNamed(context, '/login');
     };
+    ref.read(minePageVMProvider.notifier).getUserInfo();
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userManagerProvider);
+    final isLoggedIn = user.isLoggedIn;
+    final basicInfo = ref.watch(minePageVMProvider);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -35,46 +44,16 @@ class _MinePageState extends State<MinePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                children: [
-                  Image(
-                    image: AssetUtil.getAssetImage('default_avatar'),
-                    width: 50,
-                    height: 50,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: _loginAction,
-                      child: const Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '登录/注册',
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black),
-                              ),
-                              Text('快来开始你的创作吧~')
-                            ],
-                          ),
-                          Spacer(),
-                          Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey)
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              _basicUserInfo(user, () {
+
+              }),
               const SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _userInfoItemCell('关注', '-'),
-                  _userInfoItemCell('粉丝', '-'),
-                  _userInfoItemCell('乐豆', '-'),
+                  _userInfoItemCell('关注', isLoggedIn ? basicInfo.attentionNum.toString() :'-'),
+                  _userInfoItemCell('粉丝', isLoggedIn ? basicInfo.fansNum.toString() :'-'),
+                  _userInfoItemCell('乐豆', isLoggedIn ? basicInfo.experienceNum.toString() :'-'),
                 ],
               ),
               const SizedBox(height: 20,),
@@ -174,4 +153,67 @@ class _MinePageState extends State<MinePage> {
       ),
     );
   }
+
+
+  Widget _circleAvatar(String url) {
+    return CachedNetworkImage(
+      imageUrl: url,
+      imageBuilder: (context, imageProvider) => Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: imageProvider,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      placeholder: (context, url) => Image(
+        image: AssetUtil.getAssetImage('default_avatar'),
+        width: 50,
+        height: 50,
+      ),
+      errorWidget: (context, url, error) => Image(
+        image: AssetUtil.getAssetImage('default_avatar'),
+        width: 50,
+        height: 50,
+      ),
+    );
+  }
+
+
+  Widget _basicUserInfo(UserState user, VoidCallback? action) {
+    final isLoggedIn = user.isLoggedIn;
+    return Row(
+      children: [
+        _circleAvatar(user.avatar),
+        const SizedBox(width: 10),
+        Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: isLoggedIn ? action : _loginAction,
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isLoggedIn ? user.nickname : '登录/注册',
+                      style: const TextStyle(
+                          fontSize: 18, color: Colors.black),
+                    ),
+                    Text(isLoggedIn? user.signature : '快来开始你的创作吧~'),
+                  ],
+                ),
+                Spacer(),
+                Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey)
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
 }

@@ -23,7 +23,7 @@ class LoginPageVM extends _$LoginPageVM {
     var res = await api.loginByCode(state.phoneNumber, code);
     state = state.copyWith(loading: false);
     if (res.isSuccess) {
-      ref.read(userManagerProvider.notifier).update(res.data);
+      ref.read(userManagerProvider.notifier).update(res.data?.userInfo);
       state = state.copyWith(loginSuccess: true);
       UserService.instance.update(res.data);
       SmartDialog.showToast('登录成功');

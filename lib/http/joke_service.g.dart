@@ -13,7 +13,7 @@ class _JokeService implements JokeService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://tools.cretinzp.com/jokes/';
+    baseUrl ??= 'http://tools.cretinzp.com/jokes';
   }
 
   final Dio _dio;
@@ -37,7 +37,7 @@ class _JokeService implements JokeService {
     )
             .compose(
               _dio.options,
-              'home/recommend',
+              '/home/recommend',
               queryParameters: queryParameters,
               data: _data,
               cancelToken: cancelToken,
@@ -74,7 +74,7 @@ class _JokeService implements JokeService {
     )
             .compose(
               _dio.options,
-              'user/login/get_code',
+              '/user/login/get_code',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -111,7 +111,7 @@ class _JokeService implements JokeService {
     )
             .compose(
               _dio.options,
-              'user/login/code',
+              '/user/login/code',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -123,6 +123,74 @@ class _JokeService implements JokeService {
     final value = ApiResponse<LoginModel>.fromJson(
       _result.data!,
       (json) => LoginModel.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<ApiResponse<UserInfoModel>> getUserInfo() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ApiResponse<UserInfoModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'application/x-www-form-urlencoded',
+    )
+            .compose(
+              _dio.options,
+              '/user/info',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ApiResponse<UserInfoModel>.fromJson(
+      _result.data!,
+      (json) => UserInfoModel.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<ApiResponse<JokeCommentModel>> getJokeCommentList(
+    String jokeId,
+    int page,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'jokeId': jokeId,
+      'page': page,
+    };
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ApiResponse<JokeCommentModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'application/x-www-form-urlencoded',
+    )
+            .compose(
+              _dio.options,
+              '/jokes/comment/list',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ApiResponse<JokeCommentModel>.fromJson(
+      _result.data!,
+      (json) => JokeCommentModel.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }

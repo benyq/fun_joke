@@ -50,6 +50,7 @@ dependencies:
   encrypt: ^5.0.3
   logger: ^2.3.0
   shared_preferences: ^2.2.3
+  modal_bottom_sheet: ^3.0.0
 
 dev_dependencies:
   flutter_test:

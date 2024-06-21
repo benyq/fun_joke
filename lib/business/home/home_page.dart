@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/business/app_theme.dart';
 import 'package:fun_joke/business/home/follow_page.dart';
@@ -56,10 +53,10 @@ class _HomePageState extends State<HomePage>
                         isScrollable: true,
                         labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
                         labelStyle:
-                        TextStyle(fontSize: 16.sp, color: Colors.black),
+                        TextStyle(fontSize: 20.sp, color: Colors.black),
                         unselectedLabelStyle:
-                        TextStyle(fontSize: 14.sp, color: Colors.grey),
-                        tabs: [
+                        TextStyle(fontSize: 18.sp, color: Colors.grey),
+                        tabs: const [
                           Tab(text: '关注'),
                           Tab(text: '推荐'),
                           Tab(text: '新鲜'),
@@ -77,7 +74,7 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            Expanded(
+            const Expanded(
                 child: TabBarView(children: [
                   FollowPage(),
                   RecommendPage(),

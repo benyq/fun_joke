@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:fun_joke/models/login_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,6 +19,8 @@ class UserService {
   bool get hasToken => _loginModel != null;
 
   String? get token => _loginModel?.token;
+
+  bool get isLoggedIn => (_loginModel?.userInfo.userId ?? -1) != -1;
 
   Future<void> init() async{
     // 获取本地存储的token
@@ -39,6 +42,17 @@ class UserService {
     if (loginModel == null) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(_key, jsonEncode(loginModel));
+  }
+
+
+  static bool checkLogin(BuildContext context, {void Function<T>(T? t)? onLogin}) {
+    if (!UserService.instance.isLoggedIn) {
+      Navigator.pushNamed(context, '/login').then((value) => {
+        onLogin?.call(value)
+      });
+      return false;
+    }
+    return true;
   }
 
 }

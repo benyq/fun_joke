@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_joke/app_providers/user_service.dart';
 import 'package:fun_joke/business/home/home_page.dart';
+import 'package:fun_joke/business/joke/add_joke/add_joke_page.dart';
 import 'package:fun_joke/business/message/messsage_page.dart';
 import 'package:fun_joke/business/user/mine/mine_page.dart';
 import 'package:fun_joke/business/swap/swap_page.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -59,7 +62,7 @@ class _SplashPageState extends State<SplashPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(child: Icon(Icons.add), onPressed: (){
-
+        _showAddJokePage();
       }, shape: CircleBorder(), elevation: 0,),
       bottomNavigationBar: SizedBox(
         height: 65.h,
@@ -95,7 +98,9 @@ class _SplashPageState extends State<SplashPage> {
                   label: '消息',
                   isSelected: _selectedIndex == TYPE_MESSAGE,
                   onTap: (){
-                    _onItemChanged(TYPE_MESSAGE);
+                    if (UserService.checkLogin(context)) {
+                      _onItemChanged(TYPE_MESSAGE);
+                    }
                   },
                 ),
               ),
@@ -121,6 +126,15 @@ class _SplashPageState extends State<SplashPage> {
     setState(() {
       _selectedIndex = index;
       _pageController.jumpToPage(index);
+    });
+  }
+
+  _showAddJokePage() {
+    showMaterialModalBottomSheet(context: context,
+        enableDrag: false,
+        duration: const Duration(milliseconds: 300),
+        builder: (context){
+      return const AddJokePage();
     });
   }
 
@@ -163,60 +177,3 @@ class _BottomTabButton extends StatelessWidget {
   }
 }
 
-
-class BottomNavigationView extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Transform.translate(
-      offset: Offset(0.0, -10),
-      child: Container(
-        margin: EdgeInsets.only(left: 20, right: 20),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(30),
-          ),
-          child: BottomAppBar(
-            shape: CircularNotchedRectangle(),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.accessibility_new),
-                  ],
-                ),
-                _buildMiddleTabItem(),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.accessibility_new),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMiddleTabItem() {
-    return Expanded(
-      child: SizedBox(
-        height: 60,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 24),
-            Text(''),
-          ],
-        ),
-      ),
-    );
-  }
-}
