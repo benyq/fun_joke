@@ -9,8 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fun_joke/business/common/joke_video_player.dart';
 import 'package:fun_joke/business/joke/publish_joke/publish_view_model.dart';
-import 'package:fun_joke/business/video_page.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 const _maxContentLength = 300;
@@ -31,7 +29,12 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
     final selectedImageAssets = ref.watch(publishJokeVMProvider.select((value) => value.selectedImageAssets));
     final videoFile = ref.watch(publishJokeVMProvider.select((value) => value.videoFile));
     final contentLength = ref.watch(publishJokeVMProvider.select((value) => value.contentLength));
-
+    ref.listen(publishJokeVMProvider.select((value)=>value.publishSuccess), (previous, next) {
+      if (next) {
+        SmartDialog.showToast('发布成功');
+        Navigator.of(context).pop();
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -60,6 +63,9 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
                   ),
                 )),
                 GestureDetector(
+                  onTap: (){
+                    jokeVM.publishJoke();
+                  },
                   child: const Text('发布', style: TextStyle(fontSize: 16)),
                 ),
               ],
@@ -89,10 +95,9 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: () async {
-                    var confirm = true;
+                  onTap: () {
                     if (!jokeVM.isShowingImage) {
-                      confirm = await showDialog(context: context, builder: (context) {
+                      showDialog(context: context, builder: (context) {
                         return AlertDialog(
                           title: const Text('提示'),
                           content: const Text('是否取消选择图片？'),
@@ -106,12 +111,12 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
                                 onPressed: () {
                                   jokeVM.clearVideo();
                                   Navigator.of(context).pop(true);
+                                  jokeVM.selectImage(context);
                                 },
                                 child: const Text('确定'))
                             ]);
                       });
-                    }
-                    if (confirm && mounted) {
+                    }else {
                       jokeVM.selectImage(context);
                     }
                   },

@@ -45,7 +45,7 @@ class UserService {
   }
 
 
-  static bool checkLogin(BuildContext context, {void Function<T>(T? t)? onLogin}) {
+  static bool checkLogin(BuildContext context, {void Function(dynamic t)? onLogin}) {
     if (!UserService.instance.isLoggedIn) {
       Navigator.pushNamed(context, '/login').then((value) => {
         onLogin?.call(value)

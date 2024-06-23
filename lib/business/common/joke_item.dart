@@ -169,7 +169,7 @@ class JokeItemWidget extends StatelessWidget {
       picBody = Wrap(
         spacing: spacing,
         runSpacing: spacing,
-        children: imgUrls.map((e) => _picItem(context, e, size, size, 6.w, imgUrls, fit: BoxFit.fitWidth)).toList()
+        children: imgUrls.map((e) => _picItem(context, e, [Size.square(size)], 6.w, imgUrls, fit: BoxFit.fitWidth)).toList()
       );
     }else {
       var displayWidth = maxWidth;
@@ -180,31 +180,11 @@ class JokeItemWidget extends StatelessWidget {
       if (realSize != null) {
         var imageWidth = realSize[0];
         var imageHeight = realSize[1];
-        double realRatio = imageWidth / imageHeight;
-        if (realRatio > 1) {
-          /// 照片实际宽度>=实际高度
-          if (maxWidth > imageWidth) {
-            ///照片最大显示宽度>照片实际宽度
-            displayWidth = imageWidth;
-            displayHeight = imageHeight;
-          }else {
-            double displayRatio = maxWidth / imageWidth;
-            displayWidth = maxWidth;
-            displayHeight = displayRatio * imageHeight;
-          }
-        }else {
-          if (maxHeight > imageHeight) {
-            ///照片最大显示高度>照片实际高度
-            displayWidth = imageWidth;
-            displayHeight = imageHeight;
-          }else {
-            double displayRatio = maxHeight / imageHeight;
-            displayWidth = displayRatio * imageWidth;
-            displayHeight = maxHeight;
-          }
-        }
+        Size displaySize = getDisplaySize(imageWidth, imageHeight, displayWidth, displayHeight);
+        displayWidth = displaySize.width;
+        displayHeight = displaySize.height;
       }
-      picBody = _picItem(context, imageUrl, displayWidth, displayHeight, 6.w, imgUrls);
+      picBody = _picItem(context, imageUrl, [Size(displayWidth, displayHeight)], 6.w, imgUrls);
     }
 
     return Column(
@@ -219,30 +199,79 @@ class JokeItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _picItem(BuildContext context, String url, double width, double height, double radius, List<String> imgUrls, {BoxFit fit = BoxFit.cover}) {
+  Widget _picItem(BuildContext context, String url, List<Size> sizes, double radius, List<String> imgUrls, {BoxFit fit = BoxFit.cover}) {
+    var size = sizes[0];
     return GestureDetector(
       onTap: () {
         var index = imgUrls.indexOf(url);
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondAnimation) {
-          return FadeTransition(opacity: animation, child: PhotoPreviewPage(imageUrls: imgUrls, index: index,),);
+          return FadeTransition(opacity: animation, child: PhotoPreviewPage(imageUrls: imgUrls, index: index, sizes: sizes,),);
         }));
       },
       child: Hero(
         tag: url,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(radius),
-            child: CachedNetworkImage(imageUrl: decodeMediaUrl(url), fit: fit, width: width, height: height, )),
+            child: CachedNetworkImage(imageUrl: decodeMediaUrl(url), fit: fit, width: size.width, height: size.height, )),
       ),
     );
   }
 
   Widget _contentVideo(BuildContext context, Joke joke) {
+    var randomVideo = getTestVideoInfo();
+    final maxWidth = 330.w;
+    final maxHeight = 247.5.w;
+    var displayWidth = maxWidth;
+    var displayHeight = maxHeight;
+
+    var size = getDisplaySize(randomVideo['width'].toDouble(), randomVideo['height'].toDouble(), maxWidth, maxHeight);
+    displayWidth = size.width;
+    displayHeight = size.height;
+    JokeLog.i('_contentVideo: $randomVideo');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(joke.content),
-        JokeVideoPlayer(videoUrl: getTestVideoInfo()['videoUrl'],)
+        SizedBox(
+          height: 10.h,
+        ),
+        SizedBox(
+          width: displayWidth,
+          height: displayHeight,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.w),
+              child: JokeVideoPlayer(videoUrl: randomVideo['videoUrl'])),
+        )
       ],
     );
+  }
+
+  Size getDisplaySize(double realWidth, double realHeight, double maxWidth, double maxHeight) {
+    double realRatio = realWidth / realHeight;
+    double displayWidth = 0;
+    double displayHeight = 0;
+    if (realRatio > 1) {
+      /// 照片实际宽度>=实际高度
+      if (maxWidth > realWidth) {
+        ///照片最大显示宽度>照片实际宽度
+        displayWidth = realWidth;
+        displayHeight = realHeight;
+      }else {
+        double displayRatio = maxWidth / realWidth;
+        displayWidth = maxWidth;
+        displayHeight = displayRatio * realHeight;
+      }
+    }else {
+      if (maxHeight > realHeight) {
+        ///照片最大显示高度>照片实际高度
+        displayWidth = realWidth;
+        displayHeight = realHeight;
+      }else {
+        double displayRatio = maxHeight / realHeight;
+        displayWidth = displayRatio * realWidth;
+        displayHeight = maxHeight;
+      }
+    }
+    return Size(displayWidth, displayHeight);
   }
 }

@@ -13,12 +13,15 @@ class PublishJokeState extends Equatable {
 
   final int contentLength;
 
+  final bool publishSuccess;
+
   const PublishJokeState({
     this.videoEntity,
     required this.videoFile,
     required this.selectedImageAssets,
     required this.imagePaths,
     required this.contentLength,
+    required this.publishSuccess,
   });
 
   static defaultState() => const PublishJokeState(
@@ -27,6 +30,7 @@ class PublishJokeState extends Equatable {
     selectedImageAssets: [],
     imagePaths: [],
     contentLength: 0,
+    publishSuccess: false,
   );
 
   PublishJokeState copyWith({
@@ -35,6 +39,7 @@ class PublishJokeState extends Equatable {
     List<AssetEntity>? selectedImageAssets,
     List<String>? imagePaths,
     int? contentLength,
+    bool? publishSuccess,
   }) {
     return PublishJokeState(
       videoEntity: videoEntity,
@@ -42,9 +47,10 @@ class PublishJokeState extends Equatable {
       selectedImageAssets: selectedImageAssets ?? this.selectedImageAssets,
       imagePaths: imagePaths ?? this.imagePaths,
       contentLength: contentLength ?? this.contentLength,
+      publishSuccess: publishSuccess ?? this.publishSuccess,
     );
   }
 
   @override
-  List<Object?> get props => [videoEntity, videoFile, selectedImageAssets, imagePaths, contentLength];
+  List<Object?> get props => [videoEntity, videoFile, selectedImageAssets, imagePaths, contentLength, publishSuccess];
 }

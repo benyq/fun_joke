@@ -6,7 +6,7 @@ part of 'publish_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$publishJokeVMHash() => r'563bfa4c565dc270730cc65acba5aef099a18a4c';
+String _$publishJokeVMHash() => r'14bb9760f61a483a2681c63ede3041e205b02d34';
 
 /// See also [PublishJokeVM].
 @ProviderFor(PublishJokeVM)

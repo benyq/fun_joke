@@ -27,11 +27,12 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       splitScreenMode: true,
+      minTextAdapt: true,
       builder: (context, child) => MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: const ColorScheme.light(
-              surface: Colors.white
+              surface: Colors.white,
           ),
           useMaterial3: true,
           pageTransitionsTheme: const PageTransitionsTheme(

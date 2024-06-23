@@ -41,5 +41,11 @@ abstract class JokeService {
   /// 获取段子获取评论列表
   @POST('/jokes/comment/list')
   @FormUrlEncoded()
-  Future<ApiResponse<JokeCommentModel>> getJokeCommentList(@Field() String jokeId, @Field() int page);
+  Future<ApiResponse<JokeCommentModel>> getJokeCommentList(@Field() String jokeId, @Field() int type);
+
+
+  /// 发布段子, 目前只支持 纯文字
+  @POST('/jokes/post')
+  @FormUrlEncoded()
+  Future<ApiResponse<dynamic>> publishJoke(@Field() String content, @Field() int type);
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fun_joke/app_providers/api_provider.dart';
 import 'package:fun_joke/business/joke/publish_joke/publish_joke_state.dart';
 import 'package:fun_joke/utils/joke_log.dart';
@@ -69,10 +70,20 @@ class PublishJokeVM extends _$PublishJokeVM {
     state = state.copyWith(videoEntity: null, videoFile: null);
   }
 
-  bool get isShowingImage => state.selectedImageAssets.isNotEmpty;
+  bool get isShowingImage => state.selectedImageAssets.isNotEmpty || state.videoEntity == null;
 
-  void publishJoke(String content, List<AssetEntity> assets)async {
+  void publishJoke()async {
+    var content = _contentController.text;
+    if (content.isEmpty) {
+      SmartDialog.showToast('内容不能为空');
+      return;
+    }
     var api = await ref.read(apiProvider);
-
+    var res = await api.publishJoke(content, 1);
+    if (res.isSuccess) {
+      state = state.copyWith(publishSuccess: true);
+    }else {
+      SmartDialog.showToast(res.msg);
+    }
   }
 }

@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_joke/utils/joke_log.dart';
+import 'package:fun_joke/utils/media_util.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class JokeVideoPlayer extends StatelessWidget {
   final String? videoUrl;
@@ -50,37 +54,48 @@ class _RealVideoPlayerState extends State<RealVideoPlayer> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: _controller.value.isInitialized
-          ? GestureDetector(
-              onTap: () {
-                setState(() {
-                  _controller.value.isPlaying
-                      ? _controller.pause()
-                      : _controller.play();
-                });
-              },
-              child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              ),
-            )
-          : GestureDetector(
-              onTap: () {
-                _controller.initialize().then((_) {
-                  // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+    return VisibilityDetector(
+      onVisibilityChanged: (VisibilityInfo info) {
+        JokeLog.d('VisibilityDetector: ${info.visibleFraction}, ${_controller.value.isPlaying}');
+        if (info.visibleFraction <= 0.0) {
+          if (_controller.value.isPlaying) {
+            _controller.pause();
+          }
+        }
+      },
+      key: Key(widget.videoUrl != null ? widget.videoUrl! : widget.videoFile!.toString()),
+      child: Center(
+        child: _controller.value.isInitialized
+            ? GestureDetector(
+                onTap: () {
                   setState(() {
-                    _controller.play();
+                    _controller.value.isPlaying
+                        ? _controller.pause()
+                        : _controller.play();
                   });
-                });
-              },
-              child: Container(
-                width: 100.w,
-                height: 50.h,
-                color: Colors.blue,
-              )),
+                },
+                child: AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                ),
+              )
+            : GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  _controller.initialize().then((_) {
+                    // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+                    setState(() {
+                      _controller.play();
+                    });
+                  });
+                },
+                child: Container(
+                  color: Colors.black,
+                )),
+      ),
     );
   }
 }

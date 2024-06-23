@@ -6,6 +6,7 @@ import 'package:fun_joke/business/joke/publish_joke/publish_joke_page.dart';
 import 'package:fun_joke/business/message/messsage_page.dart';
 import 'package:fun_joke/business/user/mine/mine_page.dart';
 import 'package:fun_joke/business/swap/swap_page.dart';
+import 'package:fun_joke/utils/joke_log.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SplashPage extends StatefulWidget {
@@ -64,58 +65,56 @@ class _SplashPageState extends State<SplashPage> {
       floatingActionButton: FloatingActionButton(child: Icon(Icons.add), onPressed: (){
         _showAddJokePage();
       }, shape: CircleBorder(), elevation: 0,),
-      bottomNavigationBar: SizedBox(
-        height: 65.h,
-        child: BottomAppBar(
-          notchMargin: 5,
-          shape: const CircularNotchedRectangle(),
-          color: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: Row(
-            children: [
-              Expanded(child: _BottomTabButton(
-                icon: Icons.home,
-                label: '首页',
-                isSelected: _selectedIndex == TYPE_HOME,
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 5,
+        height: 50.h,
+        shape: const CircularNotchedRectangle(),
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 5.w),
+        child: Row(
+          children: [
+            Expanded(child: _BottomTabButton(
+              icon: Icons.home,
+              label: '首页',
+              isSelected: _selectedIndex == TYPE_HOME,
+              onTap: (){
+                _onItemChanged(TYPE_HOME);
+              },
+            ),),
+            Expanded(
+              child: _BottomTabButton(
+                icon: Icons.swap_vert,
+                label: '划一划',
+                isSelected: _selectedIndex == TYPE_SWAP,
                 onTap: (){
-                  _onItemChanged(TYPE_HOME);
+                  _onItemChanged(TYPE_SWAP);
                 },
-              ),),
-              Expanded(
-                child: _BottomTabButton(
-                  icon: Icons.swap_vert,
-                  label: '划一划',
-                  isSelected: _selectedIndex == TYPE_SWAP,
-                  onTap: (){
-                    _onItemChanged(TYPE_SWAP);
-                  },
-                ),
               ),
-              const SizedBox(width: 48), // 占位，以便 FloatingActionButton 不遮挡
-              Expanded(
-                child: _BottomTabButton(
-                  icon: Icons.message,
-                  label: '消息',
-                  isSelected: _selectedIndex == TYPE_MESSAGE,
-                  onTap: (){
-                    if (UserService.checkLogin(context)) {
-                      _onItemChanged(TYPE_MESSAGE);
-                    }
-                  },
-                ),
+            ),
+            const SizedBox(width: 48), // 占位，以便 FloatingActionButton 不遮挡
+            Expanded(
+              child: _BottomTabButton(
+                icon: Icons.message,
+                label: '消息',
+                isSelected: _selectedIndex == TYPE_MESSAGE,
+                onTap: (){
+                  if (UserService.checkLogin(context)) {
+                    _onItemChanged(TYPE_MESSAGE);
+                  }
+                },
               ),
-              Expanded(
-                child: _BottomTabButton(
-                  icon: Icons.person,
-                  label: '我的',
-                  isSelected: _selectedIndex == TYPE_MINE,
-                  onTap: (){
-                    _onItemChanged(TYPE_MINE);
-                  },
-                ),
+            ),
+            Expanded(
+              child: _BottomTabButton(
+                icon: Icons.person,
+                label: '我的',
+                isSelected: _selectedIndex == TYPE_MINE,
+                onTap: (){
+                  _onItemChanged(TYPE_MINE);
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -130,15 +129,28 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _showAddJokePage() {
-    Navigator.of(context).push(PageRouteBuilder(pageBuilder: (context, anim, secAnim) {
-      return SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 1),
-          end: Offset.zero,
-        ).animate(anim),
-        child: const PublishJokePage(),
-      );
-    }));
+    publishAction() {
+      Navigator.of(context).push(PageRouteBuilder(pageBuilder: (context, anim, secAnim) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 1),
+            end: Offset.zero,
+          ).animate(anim),
+          child: const PublishJokePage(),
+        );
+      }));
+    }
+    bool isLoggedIn = UserService.checkLogin(
+      context,
+      onLogin: (result) {
+        if (result != null) {
+          publishAction();
+        }
+      },
+    );
+    if (isLoggedIn) {
+      publishAction();
+    }
   }
 
 }

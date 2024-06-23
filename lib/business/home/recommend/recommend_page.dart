@@ -45,6 +45,7 @@ class _RecommendPageState extends ConsumerState<RecommendPage>
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
                 child: JokeItemWidget(
+                  key: ValueKey(joke.joke.jokesId),
                   joke: joke,
                   likeAction: (id) {},
                   disLikeAction: (id) {},

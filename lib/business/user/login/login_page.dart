@@ -57,7 +57,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.listen(loginPageVMProvider.select((value) => value.loginSuccess), (previous, next) {
       JokeLog.i('loginSuccess: previous: $Element.pre(), next: $next');
       if (next) {
-        Navigator.pop(context);
+        Navigator.pop(context, true);
       }
     });
     return Scaffold(
@@ -91,14 +91,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                       height: 50.h,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        style: TextStyle(fontSize: 20),
-                        decoration: const InputDecoration(
-                          hintText: '请输入手机号',
-                          border: InputBorder.none,
+                      child: Center(
+                        child: TextField(
+                          controller: _phoneController,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          style: TextStyle(fontSize: 20),
+                          decoration: const InputDecoration(
+                            hintText: '请输入手机号',
+                            border: InputBorder.none,
+                          ),
                         ),
                       ),
                     ),
