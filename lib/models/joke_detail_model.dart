@@ -87,7 +87,7 @@ class Joke {
   int videoTime;
   String? videoSize;
   String? imageSize;
-  String auditMsg;
+  String? auditMsg;
 
   Joke({
     required this.jokesId,
@@ -97,14 +97,14 @@ class Joke {
     required this.type,
     required this.imageUrl,
     required this.hot,
-    required this.latitudeLongitude,
+    this.latitudeLongitude,
     required this.showAddress,
     required this.thumbUrl,
     required this.videoUrl,
     required this.videoTime,
-    required this.videoSize,
-    required this.imageSize,
-    required this.auditMsg,
+    this.videoSize,
+    this.imageSize,
+    this.auditMsg,
   });
 
   factory Joke.fromJson(Map<String, dynamic> json) => Joke(
@@ -146,14 +146,14 @@ class Joke {
 
 class User {
   int userId;
-  String nickName;
-  String signature;
+  String? nickName;
+  String? signature;
   String avatar;
 
   User({
     required this.userId,
-    required this.nickName,
-    required this.signature,
+    this.nickName,
+    this.signature,
     required this.avatar,
   });
 

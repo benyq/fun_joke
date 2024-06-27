@@ -45,9 +45,9 @@ class JokeItemWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(joke.user.nickName),
+                  Text(joke.user.nickName ?? ""),
                   Text(
-                    joke.user.signature,
+                    joke.user.signature ?? "--",
                     style: const TextStyle(fontSize: 12),
                   ),
                 ],

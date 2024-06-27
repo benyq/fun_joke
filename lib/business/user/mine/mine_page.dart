@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fun_joke/app_providers/user_provider/user_provider.dart';
 import 'package:fun_joke/app_providers/user_provider/user_state.dart';
+import 'package:fun_joke/business/joke/examining_joke/examine_joke_page.dart';
 import 'package:fun_joke/business/user/mine/mine_view_model.dart';
 import 'package:fun_joke/utils/asset_util.dart';
 
@@ -16,14 +18,10 @@ class MinePage extends ConsumerStatefulWidget {
 }
 
 class _MinePageState extends ConsumerState<MinePage> {
-  late VoidCallback _loginAction;
 
   @override
   void initState() {
     super.initState();
-    _loginAction = () {
-      Navigator.pushNamed(context, '/login');
-    };
     ref.read(minePageVMProvider.notifier).getUserInfo();
   }
 
@@ -76,8 +74,16 @@ class _MinePageState extends ConsumerState<MinePage> {
               const SizedBox(height: 20,),
               Column(
                 children: [
-                  _functionItemCell('审核中', '审核中'),
-                  _functionItemCell('审核失败', '失败'),
+                  _functionItemCell('审核中', '审核中', action: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) {
+                      return ExamineJokePage(status: 0);
+                    }));
+                  }),
+                  _functionItemCell('审核失败', '失败', action: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) {
+                      return ExamineJokePage(status: 1);
+                    }));
+                  }),
                   const SizedBox(height: 20),
                   _functionItemCell('分享给朋友', '分享'),
                   _functionItemCell('意见反馈', '意见反馈'),
@@ -94,7 +100,7 @@ class _MinePageState extends ConsumerState<MinePage> {
   Widget _userInfoItemCell(String title, String value, {VoidCallback? action}) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: action ?? _loginAction,
+      onTap: action,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -109,7 +115,7 @@ class _MinePageState extends ConsumerState<MinePage> {
       {VoidCallback? action}) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: action ?? _loginAction,
+      onTap: action,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -192,7 +198,7 @@ class _MinePageState extends ConsumerState<MinePage> {
         Expanded(
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: isLoggedIn ? action : _loginAction,
+            onTap: action,
             child: Row(
               children: [
                 Column(

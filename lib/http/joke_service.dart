@@ -48,4 +48,10 @@ abstract class JokeService {
   @POST('/jokes/post')
   @FormUrlEncoded()
   Future<ApiResponse<dynamic>> publishJoke(@Field() String content, @Field() int type);
+
+  /// 获取审核列表
+  /// @status 状态 0 审核中 1 审核失败
+  @POST('/jokes/audit/list')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<JokeDetailModel>>> getAuditJokes(@Field() int status, @Field() int page);
 }
