@@ -1,7 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter/material.dart' hide Key;
+import 'package:fun_joke/utils/string_util.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 
 String decodeMediaUrl(String? content) {
   if (content == null) {
@@ -28,6 +34,41 @@ String decodeMediaUrl(String? content) {
     return content;
   }
 }
+
+Future<bool> saveNetworkImage(String url) async{
+  try {
+    Directory documentsDir = await getApplicationDocumentsDirectory();
+    Directory galleryDir = Directory('${documentsDir.path}/gallery');
+    if (!galleryDir.existsSync()) {
+      galleryDir.create();
+    }
+    String name = generateMd5(url);
+    File picFile = File('${galleryDir.path}/$name');
+    if (picFile.existsSync()) {
+      picFile.delete();
+    }
+    picFile.create();
+    final response = await Dio().download(url, picFile.path);
+    debugPrint("response==> $response,statusCode=${response.statusCode}, $name");
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> result = await ImageGallerySaver.saveFile(picFile.path,
+          isReturnPathOfIOS: true);
+      debugPrint("result==>   $result");
+      return result["isSuccess"] == true;
+    }else {
+      return false;
+    }
+  }catch(e) {
+    return false;
+  }
+}
+
+
+bool isNetworkImage(String? url) =>
+    url == null ||
+        url == "" ||
+        url.startsWith("http://") ||
+        url.startsWith("https://");
 
 List<Map<String, dynamic>> _testVideoInfoList = [
   {

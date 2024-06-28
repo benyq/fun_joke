@@ -20,6 +20,17 @@ abstract class JokeService {
   @FormUrlEncoded()
   Future<ApiResponse<List<JokeDetailModel>>> getRecommendList([@CancelRequest() CancelToken? cancelToken]);
 
+  @POST('/home/latest')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<JokeDetailModel>>> getFreshList([@CancelRequest() CancelToken? cancelToken]);
+
+  @POST('/home/pic')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<JokeDetailModel>>> getImageList([@CancelRequest() CancelToken? cancelToken]);
+
+  @POST('/home/text')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<JokeDetailModel>>> getTextList([@CancelRequest() CancelToken? cancelToken]);
 
   /// 获取登录验证码
   @POST('/user/login/get_code')

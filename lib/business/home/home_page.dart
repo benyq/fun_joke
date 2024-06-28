@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/business/app_theme.dart';
-import 'package:fun_joke/business/home/follow_page.dart';
-import 'package:fun_joke/business/home/recommend/recommend_page.dart';
+import 'package:fun_joke/business/home/follow/follow_page.dart';
+import 'package:fun_joke/business/home/home_page_type.dart';
+import 'package:fun_joke/business/home/joke_list/joke_list_Page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -77,10 +78,10 @@ class _HomePageState extends State<HomePage>
             const Expanded(
                 child: TabBarView(children: [
                   FollowPage(),
-                  RecommendPage(),
-                  FollowPage(),
-                  FollowPage(),
-                  FollowPage(),
+                  JokeListWidget(type: HomePageType.RECOMMEND),
+                  JokeListWidget(type: HomePageType.FRESH),
+                  JokeListWidget(type: HomePageType.TEXT),
+                  JokeListWidget(type: HomePageType.IMAGE),
                 ]))
           ],
         ),

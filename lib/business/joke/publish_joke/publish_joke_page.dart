@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fun_joke/business/common/joke_video_player.dart';
+import 'package:fun_joke/business/common/photo_preview/photo_preivew_page.dart';
 import 'package:fun_joke/business/joke/publish_joke/publish_view_model.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -27,6 +28,7 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
   Widget build(BuildContext context) {
     final jokeVM = ref.read(publishJokeVMProvider.notifier);
     final selectedImageAssets = ref.watch(publishJokeVMProvider.select((value) => value.selectedImageAssets));
+    final imagePaths = ref.watch(publishJokeVMProvider.select((value) => value.imagePaths));
     final videoFile = ref.watch(publishJokeVMProvider.select((value) => value.videoFile));
     final contentLength = ref.watch(publishJokeVMProvider.select((value) => value.contentLength));
     ref.listen(publishJokeVMProvider.select((value)=>value.publishSuccess), (previous, next) {
@@ -157,7 +159,15 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
                             crossAxisCount: 3),
                         itemBuilder: (context, index) {
                           final asset = selectedImageAssets[index];
-                          return AssetEntityImage(asset, isOriginal: false, fit: BoxFit.cover);
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondAnimation) {
+                                return FadeTransition(opacity: animation, child: PhotoPreviewPage(imageUrls: imagePaths, index: index),);
+                              }));
+                            },
+                              child: Hero(
+                                tag: imagePaths[index],
+                                  child: AssetEntityImage(asset, isOriginal: false, fit: BoxFit.cover)));
                         }),
                   ),
                   Visibility(

@@ -161,6 +161,7 @@ class JokeItemWidget extends StatelessWidget {
     Widget picBody;
     var maxWidth = 330.w;
     var maxHeight = 247.5.w;
+    var minWidth = maxWidth / 3;
     if (imgUrls.length > 1) {
       //多图
       var imageSize = imgUrls.length;
@@ -180,7 +181,7 @@ class JokeItemWidget extends StatelessWidget {
       if (realSize != null) {
         var imageWidth = realSize[0];
         var imageHeight = realSize[1];
-        Size displaySize = getDisplaySize(imageWidth, imageHeight, displayWidth, displayHeight);
+        Size displaySize = getDisplaySize(imageWidth, imageHeight, displayWidth, displayHeight, minWidth: minWidth);
         displayWidth = displaySize.width;
         displayHeight = displaySize.height;
       }
@@ -205,7 +206,7 @@ class JokeItemWidget extends StatelessWidget {
       onTap: () {
         var index = imgUrls.indexOf(url);
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondAnimation) {
-          return FadeTransition(opacity: animation, child: PhotoPreviewPage(imageUrls: imgUrls, index: index, sizes: sizes,),);
+          return FadeTransition(opacity: animation, child: PhotoPreviewPage(imageUrls: imgUrls, index: index),);
         }));
       },
       child: Hero(
@@ -246,7 +247,7 @@ class JokeItemWidget extends StatelessWidget {
     );
   }
 
-  Size getDisplaySize(double realWidth, double realHeight, double maxWidth, double maxHeight) {
+  Size getDisplaySize(double realWidth, double realHeight, double maxWidth, double maxHeight, {double minWidth = 0}) {
     double realRatio = realWidth / realHeight;
     double displayWidth = 0;
     double displayHeight = 0;
@@ -270,6 +271,9 @@ class JokeItemWidget extends StatelessWidget {
         double displayRatio = maxHeight / realHeight;
         displayWidth = displayRatio * realWidth;
         displayHeight = maxHeight;
+        if (displayHeight / displayWidth > 3 && displayWidth < minWidth) {
+          displayWidth = minWidth;
+        }
       }
     }
     return Size(displayWidth, displayHeight);

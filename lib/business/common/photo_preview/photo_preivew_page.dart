@@ -1,15 +1,20 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fun_joke/utils/joke_log.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fun_joke/utils/media_util.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class PhotoPreviewPage extends StatefulWidget {
   final List<String> imageUrls;
   final int index;
-  final List<Size> sizes;
 
   const PhotoPreviewPage(
-      {super.key, required this.imageUrls, required this.index, required this.sizes});
+      {super.key, required this.imageUrls, required this.index});
 
   @override
   State<PhotoPreviewPage> createState() => _PhotoPreviewPageState();
@@ -17,11 +22,19 @@ class PhotoPreviewPage extends StatefulWidget {
 
 class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   var _currentIndex = 0;
+  late PageController _controller;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.index;
+    _controller = PageController(initialPage: widget.index);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,43 +58,99 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
         centerTitle: true,
       ),
       backgroundColor: Colors.black,
-      body: PageView(
-        controller: PageController(initialPage: _currentIndex),
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+      body: GestureDetector(
+        onLongPress: () {
+          var realUrl = decodeMediaUrl(widget.imageUrls[_currentIndex]);
+          if (isNetworkImage(realUrl)) {
+            _showSavePicBottomSheet();
+          }
         },
-        children: _images(widget.imageUrls, widget.sizes),
+        child: PhotoViewGallery.builder(
+          scrollPhysics: const BouncingScrollPhysics(),
+          builder: (BuildContext context, int index) {
+            return _getGalleryPageOptions(widget.imageUrls[index]);
+          },
+          loadingBuilder: (context, event) => Center(
+            child: SizedBox(
+              width: 20.0,
+              height: 20.0,
+              child: CircularProgressIndicator(
+                value: event == null
+                    ? 0
+                    : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+              ),
+            ),
+          ),
+          itemCount: widget.imageUrls.length,
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          pageController: _controller,
+        ),
       ),
     );
   }
 
-
-  List<Widget> _images(List<String> images, List<Size> sizes) {
-    JokeLog.d('$sizes');
-    final List<Widget> widgets = [];
-    for (int i = 0; i < images.length; i++) {
-      var image = images[i];
-      var size = sizes[i];
-      var fit = BoxFit.fitWidth;
-      var ratio = size.height / size.width;
-      if (ratio > 1.3) {
-        fit = BoxFit.fitHeight;
-      }
-      widgets.add(
-          SizedBox.expand(
-            child: Hero(
-                tag: image,
-                child: CachedNetworkImage(
-                  imageUrl: decodeMediaUrl(image),
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: fit,
-                )),
+  PhotoViewGalleryPageOptions _getGalleryPageOptions(String url) {
+    return isNetworkImage(decodeMediaUrl(url))
+        ? PhotoViewGalleryPageOptions(
+            imageProvider: CachedNetworkImageProvider(decodeMediaUrl(url)),
+            maxScale: 4.0,
+            minScale: 0.3,
+            initialScale: PhotoViewComputedScale.contained * 0.8,
+            basePosition: Alignment.center,
+            heroAttributes: PhotoViewHeroAttributes(tag: url),
           )
-      );
+        : PhotoViewGalleryPageOptions(
+            imageProvider: FileImage(File(url)),
+            maxScale: 4.0,
+            minScale: 0.3,
+            initialScale: PhotoViewComputedScale.contained * 0.8,
+            heroAttributes: PhotoViewHeroAttributes(tag: url),
+          );
+  }
+
+  void _showSavePicBottomSheet() {
+    showMaterialModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.w),
+                topRight: Radius.circular(16.w))),
+        builder: (context) {
+          return SizedBox(
+              height: 120.h,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _saveImage();
+                    },
+                    child: const Text('保存到相册', style: TextStyle(color: Colors.black),),
+                  ),
+                  Container(color: Colors.grey.withOpacity(0.2), height: 5.w),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('取消', style: TextStyle(color: Colors.black),),
+                  ),
+                ],
+              ));
+        });
+  }
+
+  void _saveImage() async {
+    var realUrl = decodeMediaUrl(widget.imageUrls[_currentIndex]);
+    var res = await saveNetworkImage(realUrl);
+    if (res) {
+      SmartDialog.showToast('保存成功');
+    } else {
+      SmartDialog.showToast('保存失败');
     }
-    return widgets;
   }
 }
