@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/business/app_theme.dart';
 import 'package:fun_joke/business/home/follow/follow_page.dart';
 import 'package:fun_joke/business/home/home_page_type.dart';
 import 'package:fun_joke/business/home/joke_list/joke_list_Page.dart';
+import 'package:fun_joke/business/home/search/search_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,13 +67,15 @@ class _HomePageState extends State<HomePage>
                           Tab(text: '趣图'),
                         ]),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   GestureDetector(
                     onTap: (){
-
+                      Navigator.push(context, CupertinoPageRoute(builder: (context){
+                        return const SearchPage();
+                      }));
                     },
                       child: const Icon(Icons.search_rounded, size: 30, )),
-                  SizedBox(width: 10,)
+                  SizedBox(width: 10.w,)
                 ],
               ),
             ),

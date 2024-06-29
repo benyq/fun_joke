@@ -65,4 +65,14 @@ abstract class JokeService {
   @POST('/jokes/audit/list')
   @FormUrlEncoded()
   Future<ApiResponse<List<JokeDetailModel>>> getAuditJokes(@Field() int status, @Field() int page);
+
+  /// 热搜
+  @POST('/helper/hot_search')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<String>>> getHotKey();
+
+  /// 搜索Joke
+  @POST('/home/jokes/search')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<JokeDetailModel>>> searchJoke(@Field() String keyword, @Field() int page);
 }

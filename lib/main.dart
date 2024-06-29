@@ -31,8 +31,10 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          // 使用ListView 。滚动时 AppBar 改变颜色问题
+          appBarTheme: const AppBarTheme(scrolledUnderElevation: 0.0),
           colorScheme: const ColorScheme.light(
-              surface: Colors.white,
+            surface: Colors.white,
           ),
           useMaterial3: true,
           pageTransitionsTheme: const PageTransitionsTheme(

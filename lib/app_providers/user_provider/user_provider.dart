@@ -9,7 +9,7 @@ part 'user_provider.g.dart';
 class UserManager extends _$UserManager {
   @override
   UserState build() {
-    return UserState();
+    return const UserState();
   }
 
   void update(UserInfo? userInfo) {

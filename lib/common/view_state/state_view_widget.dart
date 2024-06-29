@@ -7,7 +7,7 @@ mixin StateViewMixin {
 
   late final VoidCallback? retryBlock;
 
-  Widget buildView(BuildContext context, WidgetRef ref, ViewState state) {
+  Widget buildView(BuildContext context, WidgetRef ref, ViewState state, {bool bindState = true}) {
     Widget child;
     if (state.isSuccess()) {
       child = buildBody(context, ref);

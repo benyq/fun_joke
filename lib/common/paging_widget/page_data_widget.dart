@@ -75,7 +75,8 @@ mixin PageLogic {
         }
       } else {
         refreshController.finishRefresh(IndicatorResult.fail);
-        failCallback;
+        JokeLog.e('refresh fail');
+        failCallback?.call();
       }
     }).catchError((e) {
       refreshController.finishRefresh(IndicatorResult.fail);

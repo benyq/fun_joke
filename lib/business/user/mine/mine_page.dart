@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fun_joke/app_providers/user_provider/user_provider.dart';
 import 'package:fun_joke/app_providers/user_provider/user_state.dart';
+import 'package:fun_joke/app_providers/user_service.dart';
 import 'package:fun_joke/business/joke/examining_joke/examine_joke_page.dart';
 import 'package:fun_joke/business/user/mine/mine_view_model.dart';
 import 'package:fun_joke/utils/asset_util.dart';
@@ -43,7 +44,9 @@ class _MinePageState extends ConsumerState<MinePage> {
           child: Column(
             children: [
               _basicUserInfo(user, () {
+                if (UserService.checkLogin(context)) {
 
+                }
               }),
               const SizedBox(height: 20,),
               Row(
@@ -75,14 +78,18 @@ class _MinePageState extends ConsumerState<MinePage> {
               Column(
                 children: [
                   _functionItemCell('审核中', '审核中', action: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                      return ExamineJokePage(status: 0);
-                    }));
+                    if (UserService.checkLogin(context)) {
+                      Navigator.push(context, CupertinoPageRoute(builder: (context) {
+                        return ExamineJokePage(status: 0);
+                      }));
+                    }
                   }),
                   _functionItemCell('审核失败', '失败', action: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                      return ExamineJokePage(status: 1);
-                    }));
+                    if (UserService.checkLogin(context)) {
+                      Navigator.push(context, CupertinoPageRoute(builder: (context) {
+                        return ExamineJokePage(status: 1);
+                      }));
+                    }
                   }),
                   const SizedBox(height: 20),
                   _functionItemCell('分享给朋友', '分享'),

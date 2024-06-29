@@ -9,6 +9,7 @@ import 'package:fun_joke/business/user/login/verify_code_input.dart';
 import 'package:fun_joke/business/user/login/login_state.dart';
 import 'package:fun_joke/business/user/login/login_view_model.dart';
 import 'package:fun_joke/utils/joke_log.dart';
+import 'package:fun_joke/utils/string_util.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -96,7 +97,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           controller: _phoneController,
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
-                          style: TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 20),
                           decoration: const InputDecoration(
                             hintText: '请输入手机号',
                             border: InputBorder.none,
@@ -111,6 +112,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       child: ElevatedButton(
                         onPressed: isCodeEnabled ? (){
                           var phone = _phoneController.text;
+                          if (!isPhoneNum(phone)) {
+                            SmartDialog.showToast('请输入正确的手机号');
+                            return;
+                          }
                           viewModel.getVerificationCode(phone);
                         } : null,
                         style: ElevatedButton.styleFrom(
