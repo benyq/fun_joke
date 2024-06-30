@@ -4,6 +4,7 @@ import 'package:fun_joke/models/joke_comment_model.dart';
 import 'package:fun_joke/models/joke_detail_model.dart';
 import 'package:dio/dio.dart';
 import 'package:fun_joke/models/login_model.dart';
+import 'package:fun_joke/models/recommend_user_model.dart';
 import 'package:fun_joke/models/user_info_model.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -75,4 +76,14 @@ abstract class JokeService {
   @POST('/home/jokes/search')
   @FormUrlEncoded()
   Future<ApiResponse<List<JokeDetailModel>>> searchJoke(@Field() String keyword, @Field() int page);
+
+
+  @POST('/home/attention/recommend')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<RecommendUserModel>>> getRecommendUser();
+
+
+  @POST('/home/attention/list')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<JokeDetailModel>>> getAttentionJoke(@Field() int page);
 }
