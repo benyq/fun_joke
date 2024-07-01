@@ -19,6 +19,7 @@ mixin PageStateWidgetMixin on StateViewMixin {
           return false;
         },
         child: EasyRefresh(
+          header: const CupertinoHeader(),
             controller: refreshController,
             onRefresh: () {
               refreshData();
@@ -67,6 +68,7 @@ mixin PageLogic {
     page = 1;
     sendRequestBlock.then((result) {
       if (result.isSuccess) {
+        page++;
         refreshController.finishRefresh();
         if (result.isEmpty()) {
           emptyCallback?.call();
@@ -91,18 +93,15 @@ mixin PageLogic {
     VoidCallback? emptyCallback,
     VoidCallback? failCallback,
   }) {
-    page = 1;
     sendRequestBlock.then((result) {
       if (result.isSuccess) {
-        if (result.isEmpty()) {
+        page++;
+        bool isNoMoreData = result.noMoreData();
+        if (isNoMoreData) {
+          refreshController.finishLoad(IndicatorResult.noMore);
           emptyCallback?.call();
         } else {
-          bool isNoMoreData = result.noMoreData();
-          if (isNoMoreData) {
-            refreshController.finishLoad(IndicatorResult.noMore);
-          } else {
-            refreshController.finishLoad();
-          }
+          refreshController.finishLoad();
         }
         if (successBlock != null && !result.isEmpty()) {
           successBlock(result.data!);

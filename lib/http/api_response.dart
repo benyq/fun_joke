@@ -35,7 +35,7 @@ class ApiResponse<T> {
       return true;
     } else {
       if(data is List) {
-        return (data as List).length < pageSize;
+        return (data as List).length <= pageSize;
       }
       return false;
     }
