@@ -22,6 +22,8 @@ class UserService {
 
   bool get isLoggedIn => (_loginModel?.userInfo.userId ?? -1) != -1;
 
+  LoginModel? get loginModel => _loginModel;
+
   Future<void> init() async{
     // 获取本地存储的token
     final SharedPreferences prefs = await SharedPreferences.getInstance();

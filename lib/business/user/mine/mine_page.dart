@@ -6,7 +6,9 @@ import 'package:fun_joke/app_providers/user_provider/user_provider.dart';
 import 'package:fun_joke/app_providers/user_provider/user_state.dart';
 import 'package:fun_joke/app_providers/user_service.dart';
 import 'package:fun_joke/business/joke/examining_joke/examine_joke_page.dart';
+import 'package:fun_joke/business/setting/setting_page.dart';
 import 'package:fun_joke/business/user/mine/mine_view_model.dart';
+import 'package:fun_joke/business/user/user_detail/user_detail_page.dart';
 import 'package:fun_joke/utils/asset_util.dart';
 
 const default_bg = Color(0xFFEDEDED);
@@ -45,7 +47,9 @@ class _MinePageState extends ConsumerState<MinePage> {
             children: [
               _basicUserInfo(user, () {
                 if (UserService.checkLogin(context)) {
-
+                  Navigator.push(context, CupertinoPageRoute(builder: (context){
+                    return const UserDetailPage();
+                  }));
                 }
               }),
               const SizedBox(height: 20,),
@@ -94,7 +98,11 @@ class _MinePageState extends ConsumerState<MinePage> {
                   const SizedBox(height: 20),
                   _functionItemCell('分享给朋友', '分享'),
                   _functionItemCell('意见反馈', '意见反馈'),
-                  _functionItemCell('设置', '设置'),
+                  _functionItemCell('设置', '设置', action: (){
+                    Navigator.push(context, CupertinoPageRoute(builder: (context){
+                      return const SettingPage();
+                    }));
+                  }),
                 ],
               )
             ],

@@ -120,9 +120,11 @@ class _CommentBottomSheetState extends ConsumerState<CommentView> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatarWidget(
-            imageUrl: comment.commentUser.userAvatar,
-            size: 35.w,
+          ClipOval(
+            child: AvatarWidget(
+              imageUrl: comment.commentUser.userAvatar,
+              size: 35.w,
+            ),
           ),
           SizedBox(
             width: 10.w,

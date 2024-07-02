@@ -33,9 +33,11 @@ class JokeItemWidget extends StatelessWidget {
         Row(
           children: [
             ClipOval(
-              child: CircleAvatarWidget(
-                imageUrl: joke.user.avatar,
-                size: 35.w,
+              child: ClipOval(
+                child: AvatarWidget(
+                  imageUrl: joke.user.avatar,
+                  size: 35.w,
+                ),
               ),
             ),
             SizedBox(

@@ -111,34 +111,34 @@ class _FollowPageState extends ConsumerState<FollowPage>
 
 
   Widget _recommendUserWidget(List<RecommendUserModel> users) {
-    return SingleChildScrollView(
-      controller: ScrollController(),
-      scrollDirection: Axis.horizontal,
-      physics: const ClampingScrollPhysics(),
-      child: Container(
-        color: default_bg,
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('推荐用户'),
-            SizedBox(
-              height: 10.h,
-            ),
-            Wrap(
+    return Container(
+      color: default_bg,
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('推荐用户'),
+          SizedBox(
+            height: 10.h,
+          ),
+          SingleChildScrollView(
+            controller: ScrollController(),
+            scrollDirection: Axis.horizontal,
+            physics: const ClampingScrollPhysics(),
+            child: Wrap(
               spacing: 10.w,
               children: users.map((e) => _recommendUserItem(e)).toList(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _recommendUserItem(RecommendUserModel user) {
     return Container(
-      width: 100.w,
+      width: 120.w,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.0),
@@ -196,9 +196,9 @@ class _FollowPageState extends ConsumerState<FollowPage>
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.red,
-                borderRadius: BorderRadius.circular(10.w),
+                borderRadius: BorderRadius.circular(15.w),
               ),
-              height: 20.w,
+              height: 25.h,
               child: const Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -206,11 +206,11 @@ class _FollowPageState extends ConsumerState<FollowPage>
                     Icon(
                       Icons.add,
                       color: Colors.white,
-                      size: 12,
+                      size: 16,
                     ),
                     Text(
                       '关注',
-                      style: TextStyle(color: Colors.white, fontSize: 10),
+                      style: TextStyle(color: Colors.white, fontSize: 12),
                     )
                   ],
                 ),

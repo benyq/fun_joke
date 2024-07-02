@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+///参照Flutter实战·第二版实现
+///https://book.flutterchina.club/chapter6/keepalive.html#_6-8-2-keepalivewrapper
 class KeepAliveWrapper extends StatefulWidget {
   const KeepAliveWrapper({
     super.key,
