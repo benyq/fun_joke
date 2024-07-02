@@ -23,7 +23,7 @@ class ExamineJokePage extends ConsumerWidget with StateViewMixin, PageStateWidge
         itemBuilder: (context, index) {
           final joke = jokes[index];
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
+            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.w),
             child: JokeItemWidget(
               key: ValueKey(joke.joke.jokesId),
               joke: joke,

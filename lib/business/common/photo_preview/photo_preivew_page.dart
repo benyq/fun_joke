@@ -72,8 +72,8 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
           },
           loadingBuilder: (context, event) => Center(
             child: SizedBox(
-              width: 20.0,
-              height: 20.0,
+              width: 20.w,
+              height: 20.w,
               child: CircularProgressIndicator(
                 value: event == null
                     ? 0
@@ -121,7 +121,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                 topRight: Radius.circular(16.w))),
         builder: (context) {
           return SizedBox(
-              height: 120.h,
+              height: 120.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

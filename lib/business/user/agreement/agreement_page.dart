@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AgreementPage extends StatelessWidget {
   const AgreementPage(this.title, {super.key});
@@ -20,7 +21,7 @@ class AgreementPage extends StatelessWidget {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.w),
                     child: Text(snapshot.data.toString()),
                   ),
                 );

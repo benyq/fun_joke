@@ -65,7 +65,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       appBar: AppBar(backgroundColor: Colors.white, toolbarHeight: 0,),
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+        padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 25.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -80,18 +80,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40,),
-                    const Text('请输入手机号', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                    const SizedBox(height: 10,),
-                    const Text('未注册的手机号验证后将自动登录', style: const TextStyle(fontSize: 12, color: Colors.grey),),
-                    const SizedBox(height: 40,),
+                    SizedBox(height: 40.w,),
+                    const Text('请输入手机号', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    SizedBox(height: 10.w,),
+                    const Text('未注册的手机号验证后将自动登录', style:  TextStyle(fontSize: 12, color: Colors.grey),),
+                    SizedBox(height: 40.w,),
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.circular(20.w),
                       ),
-                      height: 50.h,
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      height: 50.w,
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
                       child: Center(
                         child: TextField(
                           controller: _phoneController,
@@ -105,10 +105,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20,),
+                    SizedBox(height: 20.w,),
                     SizedBox(
                       width: double.infinity,
-                      height: 50.h,
+                      height: 50.w,
                       child: ElevatedButton(
                         onPressed: isCodeEnabled ? (){
                           var phone = _phoneController.text;
@@ -130,11 +130,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40,),
-                    const Text('请输入验证码', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                    const SizedBox(height: 10,),
-                    const Text('请关注微信公众号【Cretin的开发之路】，在输入框输入【#13】获取验证码', style: const TextStyle(fontSize: 12, color: Colors.grey),),
-                    const SizedBox(height: 40,),
+                    SizedBox(height: 40.w,),
+                    const Text('请输入验证码', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    SizedBox(height: 10.w,),
+                    const Text('请关注微信公众号【Cretin的开发之路】，在输入框输入【#13】获取验证码', style: TextStyle(fontSize: 12, color: Colors.grey),),
+                    SizedBox(height: 40.w,),
                     VerifyCodeInput(
                       height: 48.w,
                       onSubmit: (value) {
@@ -144,10 +144,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         });
                       },
                     ),
-                    const SizedBox(height: 20,),
+                    SizedBox(height: 20.w,),
                     SizedBox(
                       width: double.infinity,
-                      height: 50.h,
+                      height: 50.w,
                       child: ElevatedButton(
                         onPressed: isLoginEnabled ? (){
                            viewModel.login(_code);
@@ -164,7 +164,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 return const SizedBox();
               }
             }),
-            const SizedBox(height: 20,),
+            SizedBox(height: 20.w,),
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

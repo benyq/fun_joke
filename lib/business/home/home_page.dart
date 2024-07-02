@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage>
         child: Column(
           children: [
             Container(
-              height: 40.h,
+              height: 40.w,
               color: appDefaultBackgroundColor,
               child: Row(
                 children: [
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage>
                         physics: const BouncingScrollPhysics(),
                         indicator: const BoxDecoration(color: Colors.transparent,),
                         isScrollable: true,
-                        labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                        labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
                         labelStyle:
                         TextStyle(fontSize: 20.sp, color: Colors.black),
                         unselectedLabelStyle:

@@ -49,7 +49,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       body: Column(
         children: [
           SizedBox(
-            height: 10.h,
+            height: 10.w,
           ),
           Row(
             children: [
@@ -117,7 +117,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           style: TextStyle(fontSize: 18),
         ),
         SizedBox(
-          height: 10.h,
+          height: 10.w,
         ),
         Wrap(
           alignment: WrapAlignment.spaceBetween,
@@ -131,7 +131,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               .toList(),
         ),
         SizedBox(
-          height: 10.h,
+          height: 10.w,
         ),
         Row(
           children: [
@@ -153,12 +153,12 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           ],
         ),
         SizedBox(
-          height: 10.h,
+          height: 10.w,
         ),
         Expanded(
             child: ListView.separated(
                 separatorBuilder: (context, index) {
-                  return SizedBox(height: 10.h);
+                  return SizedBox(height: 10.w);
                 },
                 itemCount: history.length,
                 itemBuilder: (context, index) {
@@ -195,7 +195,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     return ListView.separated(
         separatorBuilder: (context, index) {
           return Container(
-            height: 10.h,
+            height: 10.w,
             color: Colors.grey.withOpacity(0.2),
           );
         },
@@ -203,7 +203,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
         itemBuilder: (context, index) {
           final joke = jokes[index];
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
+            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.w),
             child: JokeItemWidget(
               key: ValueKey(joke.joke.jokesId),
               joke: joke,

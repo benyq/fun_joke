@@ -49,10 +49,10 @@ class _FollowPageState extends ConsumerState<FollowPage>
             if (users.isEmpty) {
               return Container(
                 width: double.infinity,
-                height: 150.h,
+                height: 150.w,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade500,
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(10.w),
                 ),
               );
             } else {
@@ -72,7 +72,7 @@ class _FollowPageState extends ConsumerState<FollowPage>
         },
         separatorBuilder: (context, index) {
           return Container(
-            height: 5.h,
+            height: 5.w,
             color: Colors.grey.shade500,
           );
         },
@@ -82,19 +82,19 @@ class _FollowPageState extends ConsumerState<FollowPage>
   @override
   Widget? buildCustomLoadingWidget() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
       child: Column(
         children: [
           Container(
             width: double.infinity,
-            height: 150.h,
+            height: 150.w,
             decoration: BoxDecoration(
               color: Colors.grey.shade500,
               borderRadius: BorderRadius.circular(10.0),
             ),
           ),
           SizedBox(
-            height: 20.h,
+            height: 20.w,
           ),
           Expanded(
               child: Container(
@@ -113,14 +113,14 @@ class _FollowPageState extends ConsumerState<FollowPage>
   Widget _recommendUserWidget(List<RecommendUserModel> users) {
     return Container(
       color: default_bg,
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('推荐用户'),
           SizedBox(
-            height: 10.h,
+            height: 10.w,
           ),
           SingleChildScrollView(
             controller: ScrollController(),
@@ -172,7 +172,7 @@ class _FollowPageState extends ConsumerState<FollowPage>
             ),
           ),
           SizedBox(
-            height: 5.h,
+            height: 5.w,
           ),
           Text(
             user.nickname,
@@ -182,14 +182,14 @@ class _FollowPageState extends ConsumerState<FollowPage>
                 fontFamily: 'PingFang SC', fontSize: 13, color: Colors.black),
           ),
           SizedBox(
-            height: 5.h,
+            height: 5.w,
           ),
           Text(
             '发表 ${user.jokesNum} 粉丝 ${user.fansNum}',
             style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),
           SizedBox(
-            height: 5.h,
+            height: 5.w,
           ),
           GestureDetector(
             onTap: () {},
@@ -198,7 +198,7 @@ class _FollowPageState extends ConsumerState<FollowPage>
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(15.w),
               ),
-              height: 25.h,
+              height: 25.w,
               child: const Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

@@ -64,7 +64,7 @@ class _CommentBottomSheetState extends ConsumerState<CommentView> {
               ),
             ],
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 10.w),
           Expanded(child: comments.isEmpty ? const SizedBox() : MediaQuery.removePadding(
             context: context,
             removeTop: true,
@@ -81,11 +81,11 @@ class _CommentBottomSheetState extends ConsumerState<CommentView> {
             children: [
               Expanded(
                 child: Container(
-                  height: 35.h,
+                  height: 35.w,
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.25),
-                    borderRadius: BorderRadius.circular(30.0),
+                    borderRadius: BorderRadius.circular(30.w),
                   ),
                   child: TextField(
                     controller: _commentController,
@@ -106,7 +106,7 @@ class _CommentBottomSheetState extends ConsumerState<CommentView> {
                     }
                   }
                 },
-                child: Icon(Icons.send_rounded, size: 27.h, color: _enableSendComment? Colors.blue: Colors.grey,))
+                child: Icon(Icons.send_rounded, size: 27.w, color: _enableSendComment? Colors.blue: Colors.grey,))
             ],
           )
         ],

@@ -44,7 +44,7 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -78,7 +78,7 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
           ),
           SizedBox(
               width: double.infinity,
-              height: 230.h,
+              height: 230.w,
               child: TextField(
                 maxLines: 30,
                 inputFormatters: [
@@ -93,7 +93,7 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
                     fillColor: Colors.grey.withOpacity(0.2)),
               )),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
             child: Row(
               children: [
                 GestureDetector(
@@ -146,7 +146,7 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
               child: Stack(
                 children: [
                   Visibility(

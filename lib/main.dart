@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       minTextAdapt: true,
       builder: (context, child) => MaterialApp(
-        title: 'Flutter Demo',
+        title: 'fun joke',
         theme: ThemeData(
           // 使用ListView 。滚动时 AppBar 改变颜色问题
           appBarTheme: const AppBarTheme(scrolledUnderElevation: 0.0),

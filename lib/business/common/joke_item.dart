@@ -77,7 +77,7 @@ class JokeItemWidget extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 10.h,
+          height: 10.w,
         ),
         Builder(builder: (context) {
           if (joke.joke.type == 1) {
@@ -90,7 +90,7 @@ class JokeItemWidget extends StatelessWidget {
           }
         }),
         SizedBox(
-          height: 15.h,
+          height: 15.w,
         ),
         Row(
           children: [
@@ -122,7 +122,7 @@ class JokeItemWidget extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 10.h,
+          height: 10.w,
         ),
       ],
     );
@@ -195,7 +195,7 @@ class JokeItemWidget extends StatelessWidget {
       children: [
         Text(joke.content),
         SizedBox(
-          height: 10.h,
+          height: 10.w,
         ),
         picBody,
       ],
@@ -236,7 +236,7 @@ class JokeItemWidget extends StatelessWidget {
       children: [
         Text(joke.content),
         SizedBox(
-          height: 10.h,
+          height: 10.w,
         ),
         SizedBox(
           width: displayWidth,

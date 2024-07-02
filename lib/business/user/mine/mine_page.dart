@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/app_providers/user_provider/user_provider.dart';
 import 'package:fun_joke/app_providers/user_provider/user_state.dart';
 import 'package:fun_joke/app_providers/user_service.dart';
+import 'package:fun_joke/business/common/circle_avatar_widget.dart';
 import 'package:fun_joke/business/joke/examining_joke/examine_joke_page.dart';
 import 'package:fun_joke/business/setting/setting_page.dart';
 import 'package:fun_joke/business/user/mine/mine_view_model.dart';
@@ -39,7 +41,7 @@ class _MinePageState extends ConsumerState<MinePage> {
         backgroundColor: default_bg,
       ),
       body: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.w),
         color: default_bg,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
@@ -52,7 +54,7 @@ class _MinePageState extends ConsumerState<MinePage> {
                   }));
                 }
               }),
-              const SizedBox(height: 20,),
+              SizedBox(height: 20.w,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -61,7 +63,7 @@ class _MinePageState extends ConsumerState<MinePage> {
                   _userInfoItemCell('乐豆', isLoggedIn ? basicInfo.experienceNum.toString() :'-'),
                 ],
               ),
-              const SizedBox(height: 20,),
+              SizedBox(height: 20.w,),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -78,7 +80,7 @@ class _MinePageState extends ConsumerState<MinePage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 20,),
+              SizedBox(height: 20.w,),
               Column(
                 children: [
                   _functionItemCell('审核中', '审核中', action: () {
@@ -95,7 +97,7 @@ class _MinePageState extends ConsumerState<MinePage> {
                       }));
                     }
                   }),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.w,),
                   _functionItemCell('分享给朋友', '分享'),
                   _functionItemCell('意见反馈', '意见反馈'),
                   _functionItemCell('设置', '设置', action: (){
@@ -140,11 +142,11 @@ class _MinePageState extends ConsumerState<MinePage> {
             padding: const EdgeInsets.all(6),
             child: Image(
               image: AssetUtil.getAssetImage(iconName),
-              width: 20,
-              height: 20,
+              width: 20.w,
+              height: 20.w,
             ),
           ),
-          const SizedBox(height: 4,),
+          SizedBox(height: 4.w,),
           Text(title),
         ],
       ),
@@ -162,11 +164,11 @@ class _MinePageState extends ConsumerState<MinePage> {
           children: [
             Image(
               image: AssetUtil.getAssetImage(iconName),
-              width: 25,
-              height: 25,
+              width: 25.w,
+              height: 25.w,
             ),
-            const SizedBox(width: 10,),
-            Text(title, style: TextStyle(fontSize: 16),),
+            SizedBox(width: 10.w,),
+            Text(title, style: const TextStyle(fontSize: 16),),
             const Spacer(),
             const Icon(Icons.arrow_forward_ios_rounded, size: 15, color: Colors.grey,),
           ],
@@ -180,8 +182,8 @@ class _MinePageState extends ConsumerState<MinePage> {
     return CachedNetworkImage(
       imageUrl: url,
       imageBuilder: (context, imageProvider) => Container(
-        width: 50,
-        height: 50,
+        width: 50.w,
+        height: 50.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
@@ -192,13 +194,13 @@ class _MinePageState extends ConsumerState<MinePage> {
       ),
       placeholder: (context, url) => Image(
         image: AssetUtil.getAssetImage('default_avatar'),
-        width: 50,
-        height: 50,
+        width: 50.w,
+        height: 50.w,
       ),
       errorWidget: (context, url, error) => Image(
         image: AssetUtil.getAssetImage('default_avatar'),
-        width: 50,
-        height: 50,
+        width: 50.w,
+        height: 50.w,
       ),
     );
   }
@@ -208,7 +210,10 @@ class _MinePageState extends ConsumerState<MinePage> {
     final isLoggedIn = user.isLoggedIn;
     return Row(
       children: [
-        _circleAvatar(user.avatar),
+        AvatarWidget(
+          imageUrl: user.avatar,
+          size: 50.w,
+        ),
         const SizedBox(width: 10),
         Expanded(
           child: GestureDetector(

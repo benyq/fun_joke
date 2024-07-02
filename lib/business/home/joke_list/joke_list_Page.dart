@@ -61,7 +61,7 @@ class _JokeListWidgetState extends ConsumerState<JokeListWidget> with AutomaticK
     return ListView.separated(
         separatorBuilder: (context, index) {
           return Container(
-            height: 10.h,
+            height: 10.w,
             color: Colors.grey.withOpacity(0.2),
           );
         },
@@ -69,7 +69,7 @@ class _JokeListWidgetState extends ConsumerState<JokeListWidget> with AutomaticK
         itemBuilder: (context, index) {
           final joke = jokes[index];
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
+            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.w),
             child: JokeItemWidget(
               key: ValueKey(joke.joke.jokesId),
               joke: joke,
@@ -91,13 +91,13 @@ class _JokeListWidgetState extends ConsumerState<JokeListWidget> with AutomaticK
   void _showCommentBottomSheet(BuildContext context, JokeDetailModel joke) {
     showMaterialModalBottomSheet(
         context: context,
-        shape: const RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+              topRight: Radius.circular(10.w), topLeft: Radius.circular(10.w)),
         ),
         builder: (context) {
           return Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 15.w),
             height: ScreenUtil().screenHeight * 0.75,
             child: CommentView(jokeId: joke.joke.jokesId,),
           );
