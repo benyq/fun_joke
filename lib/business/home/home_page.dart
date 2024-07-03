@@ -43,30 +43,23 @@ class _HomePageState extends State<HomePage>
               color: appDefaultBackgroundColor,
               child: Row(
                 children: [
-                  Theme(
-                    data: ThemeData(
-                      splashColor: Colors.blue, // 点击时的水波纹颜色设置为透明
-                      highlightColor: Colors.blue, // 点击时的背景高亮颜色设置为透明
-                      tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
-                    ),
-                    child: TabBar(
-                        tabAlignment: TabAlignment.start,
-                        physics: const BouncingScrollPhysics(),
-                        indicator: const BoxDecoration(color: Colors.transparent,),
-                        isScrollable: true,
-                        labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
-                        labelStyle:
-                        TextStyle(fontSize: 20.sp, color: Colors.black),
-                        unselectedLabelStyle:
-                        TextStyle(fontSize: 18.sp, color: Colors.grey),
-                        tabs: const [
-                          Tab(text: '关注'),
-                          Tab(text: '推荐'),
-                          Tab(text: '新鲜'),
-                          Tab(text: '纯文'),
-                          Tab(text: '趣图'),
-                        ]),
-                  ),
+                  TabBar(
+                      tabAlignment: TabAlignment.start,
+                      physics: const BouncingScrollPhysics(),
+                      indicator: const BoxDecoration(color: Colors.transparent,),
+                      isScrollable: true,
+                      labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
+                      labelStyle:
+                      TextStyle(fontSize: 20.sp, color: Colors.black),
+                      unselectedLabelStyle:
+                      TextStyle(fontSize: 18.sp, color: Colors.grey),
+                      tabs: const [
+                        Tab(text: '关注'),
+                        Tab(text: '推荐'),
+                        Tab(text: '新鲜'),
+                        Tab(text: '纯文'),
+                        Tab(text: '趣图'),
+                      ]),
                   const Spacer(),
                   GestureDetector(
                     onTap: (){
