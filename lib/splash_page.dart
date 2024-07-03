@@ -64,7 +64,7 @@ class _SplashPageState extends State<SplashPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(child: Icon(Icons.add), onPressed: (){
         _showAddJokePage();
-      }, shape: CircleBorder(), elevation: 0,),
+      }, shape: const CircleBorder(), elevation: 0,),
       bottomNavigationBar: BottomAppBar(
         notchMargin: 5,
         height: 65.w,

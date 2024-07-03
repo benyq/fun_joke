@@ -28,7 +28,7 @@ class FollowVM extends _$FollowVM with PageLogic{
 
   void refresh() async{
     var api = await ref.read(apiProvider);
-    sendRefreshPagingRequest(api.getAttentionJoke(page), (data){
+    sendRefreshPagingRequest(()=> api.getAttentionJoke(page), (data){
       FollowState followState = state.data ?? const FollowState();
       state = state.successState(followState.copyWith(jokes: data));
     }, );

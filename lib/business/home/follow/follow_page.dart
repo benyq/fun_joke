@@ -64,10 +64,10 @@ class _FollowPageState extends ConsumerState<FollowPage>
             var joke = jokes[index - 1];
             return JokeItemWidget(
                 joke: joke,
-                likeAction: (jokeId) {},
-                disLikeAction: (jokeId) {},
-                commentAction: (jokeId) {},
-                shareAction: (jokeId) {});
+                likeAction: () {},
+                disLikeAction: () {},
+                commentAction: () {},
+                shareAction: () {});
           }
         },
         separatorBuilder: (context, index) {

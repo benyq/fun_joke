@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/business/common/comment/comment_view.dart';
+import 'package:fun_joke/business/common/comment/comment_view_model.dart';
 import 'package:fun_joke/business/common/joke_item.dart';
 import 'package:fun_joke/business/home/home_page_type.dart';
 import 'package:fun_joke/business/home/joke_list/joke_list_view_model.dart';
 import 'package:fun_joke/common/paging_widget/page_data_widget.dart';
 import 'package:fun_joke/common/view_state/state_view_widget.dart';
 import 'package:fun_joke/models/joke_detail_model.dart';
+import 'package:fun_joke/utils/joke_log.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class JokeListWidget extends ConsumerStatefulWidget {
@@ -73,12 +75,18 @@ class _JokeListWidgetState extends ConsumerState<JokeListWidget> with AutomaticK
             child: JokeItemWidget(
               key: ValueKey(joke.joke.jokesId),
               joke: joke,
-              likeAction: (id) {},
-              disLikeAction: (id) {},
-              commentAction: (id) {
+              likeAction: () {
+                vm.likeJoke(joke.joke.jokesId, !joke.info.isLike);
+              },
+              disLikeAction: () {
+                vm.unlikeJoke(joke.joke.jokesId, !joke.info.isUnlike);
+              },
+              commentAction: () {
                 _showCommentBottomSheet(context, joke);
               },
-              shareAction: (id) {},
+              shareAction: () {
+
+              },
             ),
           );
         });
@@ -89,7 +97,10 @@ class _JokeListWidgetState extends ConsumerState<JokeListWidget> with AutomaticK
   bool get wantKeepAlive => true;
 
   void _showCommentBottomSheet(BuildContext context, JokeDetailModel joke) {
+    // 需要提前处理 CommentVM
+    ref.read(commentVMProvider.notifier).init(joke.joke.jokesId.toString());
     showMaterialModalBottomSheet(
+      duration: const Duration(milliseconds: 400),
         context: context,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -99,7 +110,10 @@ class _JokeListWidgetState extends ConsumerState<JokeListWidget> with AutomaticK
           return Container(
             padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 15.w),
             height: ScreenUtil().screenHeight * 0.75,
-            child: CommentView(jokeId: joke.joke.jokesId,),
+            child: CommentView(jokeId: joke.joke.jokesId, commentSizeChanged: (size){
+              joke.info.commentNum = size;
+              vm.updateJokeInfo(joke);
+            },),
           );
         });
 

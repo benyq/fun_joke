@@ -27,11 +27,11 @@ class ExamineJokePage extends ConsumerWidget with StateViewMixin, PageStateWidge
             child: JokeItemWidget(
               key: ValueKey(joke.joke.jokesId),
               joke: joke,
-              likeAction: (id) {},
-              disLikeAction: (id) {},
-              commentAction: (id) {
+              likeAction: () {},
+              disLikeAction: () {},
+              commentAction: () {
               },
-              shareAction: (id) {},
+              shareAction: () {},
             ),
           );
     });
@@ -41,7 +41,7 @@ class ExamineJokePage extends ConsumerWidget with StateViewMixin, PageStateWidge
   @override
   AppBar? buildAppBar() {
     return AppBar(
-      title: Text('审核列表'),
+      title: const Text('审核列表'),
     );
   }
 

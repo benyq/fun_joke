@@ -7,15 +7,16 @@ import 'package:fun_joke/business/common/circle_avatar_widget.dart';
 import 'package:fun_joke/business/common/joke_video_player.dart';
 import 'package:fun_joke/business/common/photo_preview/photo_preivew_page.dart';
 import 'package:fun_joke/models/joke_detail_model.dart';
+import 'package:fun_joke/utils/asset_util.dart';
 import 'package:fun_joke/utils/joke_log.dart';
 import 'package:fun_joke/utils/media_util.dart';
 
 class JokeItemWidget extends StatelessWidget {
   final JokeDetailModel joke;
-  final void Function(int jokeId) likeAction;
-  final void Function(int jokeId) disLikeAction;
-  final void Function(int jokeId) commentAction;
-  final void Function(int jokeId) shareAction;
+  final VoidCallback likeAction;
+  final VoidCallback disLikeAction;
+  final VoidCallback commentAction;
+  final VoidCallback shareAction;
 
   const JokeItemWidget(
       {super.key,
@@ -97,27 +98,27 @@ class JokeItemWidget extends StatelessWidget {
             Expanded(
                 child: Center(
                     child: _jokeInfoItem(
-                        Icons.favorite_border, joke.info.likeNum, () {
-                          likeAction(joke.joke.jokesId);
+                        "ic_like".webp, joke.info.isLike? Colors.redAccent : Colors.black, joke.info.likeNum, () {
+                          likeAction();
                         }
             ))),
             Expanded(
                 child: Center(
                     child: _jokeInfoItem(
-                        Icons.report, joke.info.disLikeNum, () {
-                          disLikeAction(joke.joke.jokesId);
+                    "ic_unlike".webp, joke.info.isUnlike? Colors.redAccent : Colors.black, joke.info.disLikeNum, () {
+                          disLikeAction();
                     }))),
             Expanded(
                 child: Center(
-                    child: _jokeInfoItem(Icons.comment,
+                    child: _jokeInfoItem("ic_comment".webp, Colors.black,
                         joke.info.commentNum, () {
-                          commentAction(joke.joke.jokesId);
+                          commentAction();
                         }))),
             Expanded(
                 child: Center(
                     child: _jokeInfoItem(
-                        Icons.share, joke.info.shareNum, () {
-                      shareAction(joke.joke.jokesId);
+                        "ic_share".webp, Colors.black, joke.info.shareNum, () {
+                      shareAction();
                     }))),
           ],
         ),
@@ -128,19 +129,21 @@ class JokeItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _jokeInfoItem(IconData iconData, int value, VoidCallback onTap) {
+  Widget _jokeInfoItem(String imgAsset, Color imgColor, int value, VoidCallback onTap) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            iconData,
-            size: 20.w,
+          Image.asset(
+            imgAsset,
+            width: 20.w,
+            height: 20.w,
+            color: imgColor,
           ),
           SizedBox(
-            width: 5.w,
+            width: 8.w,
           ),
           Text(
             value.toString(),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:fun_joke/app_providers/api_provider.dart';
 import 'package:fun_joke/business/home/home_page_type.dart';
 import 'package:fun_joke/common/paging_widget/page_data_widget.dart';
@@ -16,7 +17,7 @@ class JokeListVM extends _$JokeListVM with PageLogic{
   }
 
   void refresh() {
-    sendRefreshPagingRequest(requestFuture(page), (value) {
+    sendRefreshPagingRequest(()=> requestFuture(page), (value) {
       state = state.successState(value!);
     }, failCallback: () {
       state = state.errorState();
@@ -42,6 +43,77 @@ class JokeListVM extends _$JokeListVM with PageLogic{
         return api.getTextList();
       case HomePageType.IMAGE:
         return api.getImageList();
+    }
+  }
+
+  void updateJokeInfo(JokeDetailModel joke) {
+    var jokeList = state.data ?? [];
+    for(var i = 0; i < jokeList.length; i++) {
+      if(jokeList[i].joke.jokesId == joke.joke.jokesId) {
+        jokeList[i] = joke;
+        break;
+      }
+    }
+    state = state.copyWith(data: jokeList);
+  }
+
+
+  void likeJoke(int jokeId, bool isLike) async{
+    var jokeList = state.data ?? [];
+    var oldValue = false;
+    var oldCount = 0;
+    _changeJokeList(jokeList, jokeId, (joke) {
+      oldValue = joke.info.isLike;
+      oldCount = joke.info.likeNum;
+      joke.info.isLike = isLike;
+      joke.info.likeNum += isLike ? 1 : -1;
+    });
+    state = state.copyWith(data: jokeList);
+    var api = await ref.read(apiProvider);
+    api.likeJoke(jokeId.toString(), isLike).then((value) {
+      if (!value.isSuccess) {
+        throw Exception(value.msg);
+      }
+    }).catchError((e){
+      _changeJokeList(jokeList, jokeId, (joke) {
+        joke.info.isLike = oldValue;
+        joke.info.likeNum = oldCount;
+      });
+      state = state.copyWith(data: jokeList);
+    });
+  }
+
+  void unlikeJoke(int jokeId, bool isUnlike) async{
+    var jokeList = state.data ?? [];
+    var oldValue = false;
+    var oldCount = 0;
+    _changeJokeList(jokeList, jokeId, (joke) {
+      oldValue = joke.info.isUnlike;
+      oldCount = joke.info.disLikeNum;
+      joke.info.isUnlike = isUnlike;
+      joke.info.disLikeNum += isUnlike ? 1 : -1;
+    });
+    state = state.copyWith(data: jokeList);
+    var api = await ref.read(apiProvider);
+    api.unlikeJoke(jokeId.toString(), isUnlike).then((value) {
+      if (!value.isSuccess) {
+        throw Exception(value.msg);
+      }
+    }).catchError((e){
+      _changeJokeList(jokeList, jokeId, (joke) {
+        joke.info.isUnlike = oldValue;
+        joke.info.disLikeNum = oldCount;
+      });
+      state = state.copyWith(data: jokeList);
+    });
+  }
+
+  void _changeJokeList(List<JokeDetailModel> jokeList, int jokeId, ValueChanged<JokeDetailModel> changed) {
+    for(var i = 0; i < jokeList.length; i++) {
+      if(jokeList[i].joke.jokesId == jokeId) {
+        changed(jokeList[i]);
+        break;
+      }
     }
   }
 }

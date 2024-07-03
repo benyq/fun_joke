@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:fun_joke/models/login_model.dart';
 import 'package:fun_joke/models/recommend_user_model.dart';
 import 'package:fun_joke/models/user_info_model.dart';
+import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'joke_service.g.dart';
@@ -53,7 +54,7 @@ abstract class JokeService {
   /// 获取段子获取评论列表
   @POST('/jokes/comment/list')
   @FormUrlEncoded()
-  Future<ApiResponse<JokeCommentModel>> getJokeCommentList(@Field() String jokeId, @Field() int type);
+  Future<ApiResponse<JokeCommentModel>> getJokeCommentList(@Field() String jokeId, @Field() int page);
 
 
   /// 发布段子, 目前只支持 纯文字
@@ -86,4 +87,19 @@ abstract class JokeService {
   @POST('/home/attention/list')
   @FormUrlEncoded()
   Future<ApiResponse<List<JokeDetailModel>>> getAttentionJoke(@Field() int page);
+
+
+  @POST('/jokes/comment')
+  @FormUrlEncoded()
+  Future<ApiResponse<Comment>> publishJokeComment(@Field() String content, @Field() String jokeId);
+
+  ///status 	true为点赞 false为取消点赞
+  @POST('/jokes/like')
+  @FormUrlEncoded()
+  Future<ApiResponse<dynamic>> likeJoke(@Field() String id, @Field() bool status);
+
+  ///status 	true为踩 false为取消踩
+  @POST('/jokes/unlike')
+  @FormUrlEncoded()
+  Future<ApiResponse<dynamic>> unlikeJoke(@Field() String id, @Field() bool status);
 }

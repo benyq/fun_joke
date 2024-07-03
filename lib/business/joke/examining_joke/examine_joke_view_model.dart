@@ -18,7 +18,7 @@ class ExamineJokeVM extends _$ExamineJokeVM with PageLogic{
   void refresh() async {
     page = 0;
     final api = await ref.read(apiProvider);
-    sendRefreshPagingRequest(api.getAuditJokes(status, page), (data){
+    sendRefreshPagingRequest(()=> api.getAuditJokes(status, page), (data){
       state = state.successState(ExamineJokeState(jokes: data!));
     }, failCallback: () {
       state = state.errorState();

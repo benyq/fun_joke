@@ -19,7 +19,7 @@ class SearchVM extends _$SearchVM with PageLogic {
   void searchJokes(String keyword) async {
     _onSearchStart(keyword);
     final api = await ref.read(apiProvider);
-    sendRefreshPagingRequest(api.searchJoke(keyword, page), (data) {
+    sendRefreshPagingRequest(()=> api.searchJoke(keyword, page), (data) {
       state = state.copyWith(keyword: keyword, jokes: data);
     }, failCallback: () {}, emptyCallback: () {});
   }

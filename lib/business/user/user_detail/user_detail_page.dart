@@ -73,22 +73,29 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
       flexibleSpace: _flexibleSpace(context),
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(40.w),
-        child: TabBar(
-            controller: _controller,
-            physics: const BouncingScrollPhysics(),
-            indicator: const BoxDecoration(
-              color: Colors.transparent,
+        child: Theme(
+            data: ThemeData(
+              splashColor: Colors.red, // 点击时的水波纹颜色设置为透明
+              highlightColor: Colors.red, // 点击时的背景高亮颜色设置为透明
+              tabBarTheme: const TabBarTheme(dividerColor: Colors.transparent),
             ),
-            labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
-            labelStyle: TextStyle(fontSize: 20.sp, color: Colors.black),
-            unselectedLabelStyle:
-                TextStyle(fontSize: 18.sp, color: Colors.grey),
-            tabs: const [
-              Tab(text: '关注'),
-              Tab(text: '推荐'),
-              Tab(text: '新鲜'),
-              Tab(text: '纯文'),
-            ]),
+          child: TabBar(
+              controller: _controller,
+              tabAlignment: TabAlignment.start,
+              physics: const BouncingScrollPhysics(),
+              indicator: const BoxDecoration(color: Colors.transparent,),
+              isScrollable: true,
+              labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
+              labelStyle: TextStyle(fontSize: 20.sp, color: Colors.black),
+              unselectedLabelStyle:
+                  TextStyle(fontSize: 18.sp, color: Colors.grey),
+              tabs: const [
+                Tab(text: '关注'),
+                Tab(text: '推荐'),
+                Tab(text: '新鲜'),
+                Tab(text: '纯文'),
+              ]),
+        ),
       ),
     );
   }

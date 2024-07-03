@@ -60,13 +60,13 @@ mixin PageLogic {
       controlFinishRefresh: true, controlFinishLoad: true);
 
   void sendRefreshPagingRequest<T>(
-    Future<ApiResponse<T>> sendRequestBlock,
+    ValueGetter<Future<ApiResponse<T>>> sendRequestBlock,
     ValueChanged<T>? successBlock, {
     VoidCallback? emptyCallback,
     VoidCallback? failCallback,
   }) {
     page = 1;
-    sendRequestBlock.then((result) {
+    sendRequestBlock().then((result) {
       if (result.isSuccess) {
         page++;
         refreshController.finishRefresh();

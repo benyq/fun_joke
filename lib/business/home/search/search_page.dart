@@ -207,11 +207,11 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             child: JokeItemWidget(
               key: ValueKey(joke.joke.jokesId),
               joke: joke,
-              likeAction: (id) {},
-              disLikeAction: (id) {},
-              commentAction: (id) {
+              likeAction: () {},
+              disLikeAction: () {},
+              commentAction: () {
               },
-              shareAction: (id) {},
+              shareAction: () {},
             ),
           );
         });
