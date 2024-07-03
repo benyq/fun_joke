@@ -12,6 +12,7 @@ import 'package:fun_joke/business/setting/setting_page.dart';
 import 'package:fun_joke/business/user/mine/mine_view_model.dart';
 import 'package:fun_joke/business/user/user_detail/user_detail_page.dart';
 import 'package:fun_joke/utils/asset_util.dart';
+import 'package:fun_joke/utils/widget_util.dart';
 
 const default_bg = Color(0xFFEDEDED);
 
@@ -54,7 +55,7 @@ class _MinePageState extends ConsumerState<MinePage> {
                   }));
                 }
               }),
-              SizedBox(height: 20.w,),
+              20.hSize,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -63,7 +64,7 @@ class _MinePageState extends ConsumerState<MinePage> {
                   _userInfoItemCell('乐豆', isLoggedIn ? basicInfo.experienceNum.toString() :'-'),
                 ],
               ),
-              SizedBox(height: 20.w,),
+              20.hSize,
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -80,7 +81,7 @@ class _MinePageState extends ConsumerState<MinePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20.w,),
+              20.hSize,
               Column(
                 children: [
                   _functionItemCell('审核中', '审核中', action: () {
@@ -97,7 +98,7 @@ class _MinePageState extends ConsumerState<MinePage> {
                       }));
                     }
                   }),
-                  SizedBox(height: 20.w,),
+                  20.hSize,
                   _functionItemCell('分享给朋友', '分享'),
                   _functionItemCell('意见反馈', '意见反馈'),
                   _functionItemCell('设置', '设置', action: (){
@@ -146,7 +147,7 @@ class _MinePageState extends ConsumerState<MinePage> {
               height: 20.w,
             ),
           ),
-          SizedBox(height: 4.w,),
+          4.hSize,
           Text(title),
         ],
       ),
@@ -167,7 +168,7 @@ class _MinePageState extends ConsumerState<MinePage> {
               width: 25.w,
               height: 25.w,
             ),
-            SizedBox(width: 10.w,),
+            10.wSize,
             Text(title, style: const TextStyle(fontSize: 16),),
             const Spacer(),
             const Icon(Icons.arrow_forward_ios_rounded, size: 15, color: Colors.grey,),
@@ -214,7 +215,7 @@ class _MinePageState extends ConsumerState<MinePage> {
           imageUrl: user.avatar,
           size: 50.w,
         ),
-        const SizedBox(width: 10),
+        10.wSize,
         Expanded(
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,

@@ -10,6 +10,7 @@ import 'package:fun_joke/models/joke_detail_model.dart';
 import 'package:fun_joke/utils/asset_util.dart';
 import 'package:fun_joke/utils/joke_log.dart';
 import 'package:fun_joke/utils/media_util.dart';
+import 'package:fun_joke/utils/widget_util.dart';
 
 class JokeItemWidget extends StatelessWidget {
   final JokeDetailModel joke;
@@ -41,9 +42,7 @@ class JokeItemWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: 10.w,
-            ),
+            10.wSize,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,9 +76,7 @@ class JokeItemWidget extends StatelessWidget {
             IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
           ],
         ),
-        SizedBox(
-          height: 10.w,
-        ),
+        10.hSize,
         Builder(builder: (context) {
           if (joke.joke.type == 1) {
             return _contentText(context, joke.joke);
@@ -90,9 +87,7 @@ class JokeItemWidget extends StatelessWidget {
             return _contentVideo(context, joke.joke);
           }
         }),
-        SizedBox(
-          height: 15.w,
-        ),
+        15.hSize,
         Row(
           children: [
             Expanded(
@@ -122,9 +117,7 @@ class JokeItemWidget extends StatelessWidget {
                     }))),
           ],
         ),
-        SizedBox(
-          height: 10.w,
-        ),
+        10.hSize
       ],
     );
   }
@@ -142,9 +135,7 @@ class JokeItemWidget extends StatelessWidget {
             height: 20.w,
             color: imgColor,
           ),
-          SizedBox(
-            width: 8.w,
-          ),
+          8.wSize,
           Text(
             value.toString(),
             style: const TextStyle(color: Colors.black, fontSize: 14),
@@ -197,9 +188,7 @@ class JokeItemWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(joke.content),
-        SizedBox(
-          height: 10.w,
-        ),
+        10.hSize,
         picBody,
       ],
     );
@@ -238,9 +227,7 @@ class JokeItemWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(joke.content),
-        SizedBox(
-          height: 10.w,
-        ),
+        10.hSize,
         SizedBox(
           width: displayWidth,
           height: displayHeight,

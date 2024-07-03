@@ -10,6 +10,7 @@ import 'package:fun_joke/business/user/login/login_state.dart';
 import 'package:fun_joke/business/user/login/login_view_model.dart';
 import 'package:fun_joke/utils/joke_log.dart';
 import 'package:fun_joke/utils/string_util.dart';
+import 'package:fun_joke/utils/widget_util.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -80,11 +81,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 40.w,),
+                    40.hSize,
                     const Text('请输入手机号', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 10.w,),
+                    10.hSize,
                     const Text('未注册的手机号验证后将自动登录', style:  TextStyle(fontSize: 12, color: Colors.grey),),
-                    SizedBox(height: 40.w,),
+                    40.hSize,
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
@@ -105,7 +106,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.w,),
+                    20.hSize,
                     SizedBox(
                       width: double.infinity,
                       height: 50.w,
@@ -130,11 +131,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 40.w,),
+                    40.hSize,
                     const Text('请输入验证码', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 10.w,),
+                    10.hSize,
                     const Text('请关注微信公众号【Cretin的开发之路】，在输入框输入【#13】获取验证码', style: TextStyle(fontSize: 12, color: Colors.grey),),
-                    SizedBox(height: 40.w,),
+                    40.hSize,
                     VerifyCodeInput(
                       height: 48.w,
                       onSubmit: (value) {
@@ -144,7 +145,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         });
                       },
                     ),
-                    SizedBox(height: 20.w,),
+                    20.hSize,
                     SizedBox(
                       width: double.infinity,
                       height: 50.w,
@@ -164,7 +165,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 return const SizedBox();
               }
             }),
-            SizedBox(height: 20.w,),
+            20.hSize,
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

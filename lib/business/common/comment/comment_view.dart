@@ -8,6 +8,7 @@ import 'package:fun_joke/business/common/comment/comment_view_model.dart';
 import 'package:fun_joke/common/paging_widget/page_data_widget.dart';
 import 'package:fun_joke/common/view_state/state_view_widget.dart';
 import 'package:fun_joke/models/joke_comment_model.dart';
+import 'package:fun_joke/utils/widget_util.dart';
 
 class CommentView extends ConsumerStatefulWidget {
   final int jokeId;
@@ -79,7 +80,7 @@ class _CommentBottomSheetState extends ConsumerState<CommentView> with StateView
                 ),
               ],
             ),
-            SizedBox(height: 10.w),
+            10.hSize,
             Expanded(
               child: EasyRefresh(
                   header: const CupertinoHeader(),
@@ -114,7 +115,7 @@ class _CommentBottomSheetState extends ConsumerState<CommentView> with StateView
                     ),
                   ),
                 ),
-                SizedBox(width: 10.w,),
+                10.wSize,
                 GestureDetector(
                     onTap: () {
                       String content = _commentController.text;
@@ -175,9 +176,7 @@ class _CommentBottomSheetState extends ConsumerState<CommentView> with StateView
               size: 35.w,
             ),
           ),
-          SizedBox(
-            width: 10.w,
-          ),
+          10.wSize,
           Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,

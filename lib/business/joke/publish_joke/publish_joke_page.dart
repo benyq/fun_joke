@@ -10,6 +10,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:fun_joke/business/common/joke_video_player.dart';
 import 'package:fun_joke/business/common/photo_preview/photo_preivew_page.dart';
 import 'package:fun_joke/business/joke/publish_joke/publish_view_model.dart';
+import 'package:fun_joke/utils/widget_util.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 const _maxContentLength = 300;
@@ -127,9 +128,7 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
                     size: 35.w,
                   ),
                 ),
-                SizedBox(
-                  width: 20.w,
-                ),
+                20.wSize,
                 GestureDetector(
                   onTap: () {
                     jokeVM.selectVideo(context);

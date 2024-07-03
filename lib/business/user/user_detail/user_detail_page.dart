@@ -12,6 +12,7 @@ import 'package:fun_joke/business/common/nested_page.dart';
 import 'package:fun_joke/business/user/mine/mine_state.dart';
 import 'package:fun_joke/business/user/mine/mine_view_model.dart';
 import 'package:fun_joke/business/user/user_detail/user_detail_view_model.dart';
+import 'package:fun_joke/utils/widget_util.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class UserDetailPage extends ConsumerStatefulWidget {
@@ -76,10 +77,9 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
         child: TabBar(
             controller: _controller,
             overlayColor:  MaterialStateProperty.all(Colors.transparent),
-            tabAlignment: TabAlignment.start,
             physics: const BouncingScrollPhysics(),
             indicator: const BoxDecoration(color: Colors.transparent,),
-            isScrollable: true,
+            isScrollable: false,
             labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
             labelStyle: TextStyle(fontSize: 20.sp, color: Colors.black),
             unselectedLabelStyle:
@@ -152,7 +152,7 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 90.w),
+                    90.hSize,
                     Row(
                       children: [
                         ClipOval(
@@ -179,9 +179,7 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 10.w,
-                    ),
+                    10.hSize,
                     Text(
                       user.nickname,
                       style:
@@ -190,13 +188,9 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
                   ],
                 ),
               ),
-              SizedBox(
-                height: 5.w,
-              ),
+              5.hSize,
               Text(user.signature),
-              SizedBox(
-                height: 10.w,
-              ),
+              10.hSize,
               Text.rich(TextSpan(children: [
                 TextSpan(
                     recognizer: TapGestureRecognizer()..onTap = () {},
@@ -205,17 +199,13 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
                           text: mineState.likeNum.toString(),
                           style: const TextStyle(color: Colors.black, fontSize: 15)),
                       WidgetSpan(
-                          child: SizedBox(
-                        width: 5.w,
-                      )),
+                          child: 5.wSize),
                       const TextSpan(
                           text: '获赞',
                           style: TextStyle(color: Colors.grey, fontSize: 15)),
                     ]),
                 WidgetSpan(
-                    child: SizedBox(
-                  width: 20.w,
-                )),
+                    child: 20.wSize),
                 TextSpan(
                     recognizer: TapGestureRecognizer()..onTap = () {},
                     children: [
@@ -223,17 +213,13 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
                           text: mineState.attentionNum.toString(),
                           style: const TextStyle(color: Colors.black, fontSize: 15)),
                       WidgetSpan(
-                          child: SizedBox(
-                        width: 5.w,
-                      )),
+                          child: 5.wSize),
                       const TextSpan(
                           text: '关注',
                           style: TextStyle(color: Colors.grey, fontSize: 15)),
                     ]),
                 WidgetSpan(
-                    child: SizedBox(
-                  width: 20.w,
-                )),
+                    child: 20.wSize),
                 TextSpan(
                     recognizer: TapGestureRecognizer()..onTap = () {},
                     children: [
@@ -241,9 +227,7 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
                           text: mineState.fansNum.toString(),
                           style: const TextStyle(color: Colors.black, fontSize: 15)),
                       WidgetSpan(
-                          child: SizedBox(
-                        width: 5.w,
-                      )),
+                          child: 5.wSize),
                       const TextSpan(
                           text: '粉丝',
                           style: TextStyle(color: Colors.grey, fontSize: 15)),
@@ -252,9 +236,7 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
             ],
           ),
         ),
-        SizedBox(
-          height: 15.w,
-        ),
+        15.hSize,
         Container(
           height: 12.w,
           color: Colors.black.withOpacity(0.1),
@@ -279,7 +261,7 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
                 ClipOval(
                     child:
                         AvatarWidget(imageUrl: currentUser.avatar, size: 30)),
-                const SizedBox(width: 8),
+                8.wSize,
                 Text(
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

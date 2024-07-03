@@ -11,6 +11,7 @@ import 'package:fun_joke/common/paging_widget/page_data_widget.dart';
 import 'package:fun_joke/common/view_state/state_view_widget.dart';
 import 'package:fun_joke/models/recommend_user_model.dart';
 import 'package:fun_joke/utils/asset_util.dart';
+import 'package:fun_joke/utils/widget_util.dart';
 
 class FollowPage extends ConsumerStatefulWidget {
   const FollowPage({super.key});
@@ -93,9 +94,7 @@ class _FollowPageState extends ConsumerState<FollowPage>
               borderRadius: BorderRadius.circular(10.0),
             ),
           ),
-          SizedBox(
-            height: 20.w,
-          ),
+          20.hSize,
           Expanded(
               child: Container(
             width: double.infinity,
@@ -119,9 +118,7 @@ class _FollowPageState extends ConsumerState<FollowPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('推荐用户'),
-          SizedBox(
-            height: 10.w,
-          ),
+          10.hSize,
           SingleChildScrollView(
             controller: ScrollController(),
             scrollDirection: Axis.horizontal,
@@ -171,9 +168,7 @@ class _FollowPageState extends ConsumerState<FollowPage>
               height: 50,
             ),
           ),
-          SizedBox(
-            height: 5.w,
-          ),
+          5.hSize,
           Text(
             user.nickname,
             maxLines: 1,
@@ -181,16 +176,12 @@ class _FollowPageState extends ConsumerState<FollowPage>
             style: const TextStyle(
                 fontFamily: 'PingFang SC', fontSize: 13, color: Colors.black),
           ),
-          SizedBox(
-            height: 5.w,
-          ),
+          5.hSize,
           Text(
             '发表 ${user.jokesNum} 粉丝 ${user.fansNum}',
             style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),
-          SizedBox(
-            height: 5.w,
-          ),
+          5.hSize,
           GestureDetector(
             onTap: () {},
             child: Container(

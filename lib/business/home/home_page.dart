@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage>
         child: Column(
           children: [
             Container(
-              height: 40.w,
+              height: 50.w,
               color: appDefaultBackgroundColor,
               child: Row(
                 children: [

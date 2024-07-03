@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/business/common/joke_item.dart';
 import 'package:fun_joke/business/home/search/search_view_model.dart';
 import 'package:fun_joke/models/joke_detail_model.dart';
+import 'package:fun_joke/utils/widget_util.dart';
 
 const _backgroundColors = [Colors.blueAccent, Colors.purple, Colors.teal];
 
@@ -48,14 +49,10 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 10.w,
-          ),
+          10.hSize,
           Row(
             children: [
-              SizedBox(
-                width: 10.w,
-              ),
+              10.wSize,
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -80,7 +77,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                   ),
                 ),
               ),
-              SizedBox(width: 10.w),
+              10.wSize,
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
@@ -90,12 +87,10 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(width: 10.w),
+              10.wSize,
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          10.hSize,
           Expanded(
             child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -116,9 +111,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           '热搜',
           style: TextStyle(fontSize: 18),
         ),
-        SizedBox(
-          height: 10.w,
-        ),
+        10.hSize,
         Wrap(
           alignment: WrapAlignment.spaceBetween,
           spacing: 10.w,
@@ -130,9 +123,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                   child: _hotKeyItem(e)))
               .toList(),
         ),
-        SizedBox(
-          height: 10.w,
-        ),
+        10.hSize,
         Row(
           children: [
             const Text(
@@ -152,13 +143,11 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             ),
           ],
         ),
-        SizedBox(
-          height: 10.w,
-        ),
+        10.hSize,
         Expanded(
             child: ListView.separated(
                 separatorBuilder: (context, index) {
-                  return SizedBox(height: 10.w);
+                  return 10.hSize;
                 },
                 itemCount: history.length,
                 itemBuilder: (context, index) {
