@@ -102,4 +102,10 @@ abstract class JokeService {
   @POST('/jokes/unlike')
   @FormUrlEncoded()
   Future<ApiResponse<dynamic>> unlikeJoke(@Field() String id, @Field() bool status);
+
+
+  /// type 更新的类目 0 修改头像 先上传到七牛云 1 修改昵称 2 修改签名 3 修改性别 4 修改生日
+  @POST('/user/info/update')
+  @FormUrlEncoded()
+  Future<ApiResponse<dynamic>> updateUserInfo(@Field() String content, @Field() int type);
 }

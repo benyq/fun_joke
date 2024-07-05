@@ -170,4 +170,18 @@ class User {
     "signature": signature,
     "avatar": avatar,
   };
+
+  User copyWith({
+    int? userId,
+    String? nickName,
+    String? signature,
+    String? avatar,
+  }) {
+    return User(
+      userId: userId ?? this.userId,
+      nickName: nickName ?? this.nickName,
+      signature: signature ?? this.signature,
+      avatar: avatar ?? this.avatar,
+    );
+  }
 }

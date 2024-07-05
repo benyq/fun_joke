@@ -1,19 +1,19 @@
 class ErrorMessageModel {
-  int? statusCode;
+  int? status;
   String? message;
   String? error;
 
-  ErrorMessageModel({this.statusCode, this.message, this.error});
+  ErrorMessageModel({this.status, this.message, this.error});
 
   factory ErrorMessageModel.fromJson(Map<String, dynamic> json) =>
       ErrorMessageModel(
-        statusCode: json['statusCode'],
+        status: json['status'],
         message: json['message'],
         error: json['error'],
       );
 
   Map<String, dynamic> toJson() => {
-    'statusCode': statusCode,
+    'status': status,
     'message': message,
     'error': error,
   };

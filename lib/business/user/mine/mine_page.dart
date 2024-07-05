@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/app_providers/user_provider/user_provider.dart';
@@ -10,7 +11,7 @@ import 'package:fun_joke/business/common/circle_avatar_widget.dart';
 import 'package:fun_joke/business/joke/examining_joke/examine_joke_page.dart';
 import 'package:fun_joke/business/setting/setting_page.dart';
 import 'package:fun_joke/business/user/mine/mine_view_model.dart';
-import 'package:fun_joke/business/user/user_detail/user_detail_page.dart';
+import 'package:fun_joke/business/user/user_center/user_center_page.dart';
 import 'package:fun_joke/utils/asset_util.dart';
 import 'package:fun_joke/utils/widget_util.dart';
 
@@ -51,7 +52,7 @@ class _MinePageState extends ConsumerState<MinePage> {
               _basicUserInfo(user, () {
                 if (UserService.checkLogin(context)) {
                   Navigator.push(context, CupertinoPageRoute(builder: (context){
-                    return const UserDetailPage();
+                    return const UserCenterPage();
                   }));
                 }
               }),
@@ -211,9 +212,11 @@ class _MinePageState extends ConsumerState<MinePage> {
     final isLoggedIn = user.isLoggedIn;
     return Row(
       children: [
-        AvatarWidget(
-          imageUrl: user.avatar,
-          size: 50.w,
+        ClipOval(
+          child: AvatarWidget(
+            imageUrl: user.avatar,
+            size: 50.w,
+          ),
         ),
         10.wSize,
         Expanded(

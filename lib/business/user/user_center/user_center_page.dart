@@ -1,28 +1,28 @@
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/app_providers/user_provider/user_provider.dart';
 import 'package:fun_joke/app_providers/user_provider/user_state.dart';
+import 'package:fun_joke/app_routes.dart';
 import 'package:fun_joke/business/common/circle_avatar_widget.dart';
 import 'package:fun_joke/business/common/nested_page.dart';
 import 'package:fun_joke/business/user/mine/mine_state.dart';
 import 'package:fun_joke/business/user/mine/mine_view_model.dart';
-import 'package:fun_joke/business/user/user_detail/user_detail_view_model.dart';
+import 'package:fun_joke/business/user/user_center/user_center_view_model.dart';
 import 'package:fun_joke/utils/widget_util.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class UserDetailPage extends ConsumerStatefulWidget {
-  const UserDetailPage({super.key});
+class UserCenterPage extends ConsumerStatefulWidget {
+  const UserCenterPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _UserDetailPageState();
 }
 
-class _UserDetailPageState extends ConsumerState<UserDetailPage>
+class _UserDetailPageState extends ConsumerState<UserCenterPage>
     with SingleTickerProviderStateMixin, NestedPage {
   late final TabController _controller;
   double _nicknameWidgetBottom = 0.0;
@@ -55,7 +55,7 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
 
   @override
   Widget buildNestedHeader(BuildContext context) {
-    final detailVM = ref.read(userDetailVMProvider.notifier);
+    final detailVM = ref.read(userCenterVMProvider.notifier);
     var currentUser = ref.watch(userManagerProvider);
     scrollController.addListener(() {
       double maxScrollOffset =
@@ -162,18 +162,23 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
                           ),
                         ),
                         const Spacer(),
-                        Container(
-                          margin: EdgeInsets.only(top: 20.w),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5.w, horizontal: 10.w),
-                            child: const Text(
-                              '编辑资料',
-                              style: TextStyle(color: Colors.white),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.pushNamed(context, AppRoutes.userDetailPage);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 20.w),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 5.w, horizontal: 10.w),
+                              child: const Text(
+                                '编辑资料',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         )
@@ -247,7 +252,7 @@ class _UserDetailPageState extends ConsumerState<UserDetailPage>
 
   Widget _titleBar(UserState currentUser) {
     var showTitleBar =
-        ref.watch(userDetailVMProvider.select((value) => value.showTitleBar));
+        ref.watch(userCenterVMProvider.select((value) => value.showTitleBar));
     return PreferredSize(
         preferredSize: Size(double.infinity, 48.w),
         child: SizedBox(

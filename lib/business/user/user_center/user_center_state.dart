@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-class UserDetailState extends Equatable {
+class UserCenterState extends Equatable {
   final bool showTitleBar;
 
-  const UserDetailState({
+  const UserCenterState({
     this.showTitleBar = false,
   });
 
-  UserDetailState copyWith({
+  UserCenterState copyWith({
     bool? showTitleBar,
   }) {
-    return UserDetailState(
+    return UserCenterState(
       showTitleBar: showTitleBar ?? this.showTitleBar,
     );
   }

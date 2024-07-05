@@ -4,8 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:fun_joke/app_routes.dart';
+import 'package:fun_joke/business/common/photo_preview/photo_preivew_page.dart';
 import 'package:fun_joke/splash_page.dart';
 import 'package:fun_joke/business/user/login/login_page.dart';
+import 'package:fun_joke/utils/joke_log.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,10 +16,7 @@ void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final _routes = {
-  '/': (context) => const SplashPage(),
-  '/login': (context) => const LoginPage(),
-};
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -45,16 +45,21 @@ class MyApp extends StatelessWidget {
           ),
         ),
         onGenerateRoute: (settings) {
-          final route = _routes[settings.name];
+          final route = AppRoutes.routes[settings.name];
           if (route == null) return null;
+          JokeLog.i('args: ${settings.arguments}');
+          if (settings.name == AppRoutes.previewPage) {
+            return PageRouteBuilder(pageBuilder: (context, animation, secondAnimation) {
+              return FadeTransition(opacity: animation, child: route.call(context, settings.arguments),);
+            });
+          }
           return CupertinoPageRoute(
             builder: (context) {
-              return route.call(context);
+              return route.call(context, settings.arguments);
             },
           );
         },
-        initialRoute: '/',
-        routes: _routes,
+        initialRoute: AppRoutes.indexPage,
         builder: FlutterSmartDialog.init(),
         navigatorObservers: [FlutterSmartDialog.observer],
       ),

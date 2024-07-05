@@ -25,4 +25,8 @@ class MinePageVM extends _$MinePageVM {
       ref.read(userManagerProvider.notifier).update(res.data?.user);
     }
   }
+
+  void clear() {
+    state = const MineState();
+  }
 }

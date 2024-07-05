@@ -2,10 +2,12 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_joke/app_providers/user_provider/user_provider.dart';
 import 'package:fun_joke/business/common/joke_item.dart';
 import 'package:fun_joke/business/joke/examining_joke/examine_joke_view_model.dart';
 import 'package:fun_joke/common/paging_widget/page_data_widget.dart';
 import 'package:fun_joke/common/view_state/state_view_widget.dart';
+import 'package:fun_joke/models/joke_detail_model.dart';
 import 'package:fun_joke/utils/joke_log.dart';
 
 class ExamineJokePage extends ConsumerWidget with StateViewMixin, PageStateWidgetMixin{
@@ -18,10 +20,12 @@ class ExamineJokePage extends ConsumerWidget with StateViewMixin, PageStateWidge
   @override
   Widget buildPagingList(WidgetRef ref) {
     var jokes = ref.watch(_jokeProvider.select((value) => value.data?.jokes)) ?? [];
+    var user = ref.read(userManagerProvider);
     return ListView.builder(
         itemCount: jokes.length,
         itemBuilder: (context, index) {
           final joke = jokes[index];
+          joke.user = joke.user.copyWith(signature: user.signature, nickName: user.nickname);
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.w),
             child: JokeItemWidget(
@@ -32,6 +36,7 @@ class ExamineJokePage extends ConsumerWidget with StateViewMixin, PageStateWidge
               commentAction: () {
               },
               shareAction: () {},
+              ownJoke: true,
             ),
           );
     });

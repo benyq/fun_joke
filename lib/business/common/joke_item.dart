@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_joke/app_routes.dart';
 import 'package:fun_joke/business/common/circle_avatar_widget.dart';
 import 'package:fun_joke/business/common/joke_video_player.dart';
 import 'package:fun_joke/business/common/photo_preview/photo_preivew_page.dart';
@@ -18,6 +19,7 @@ class JokeItemWidget extends StatelessWidget {
   final VoidCallback disLikeAction;
   final VoidCallback commentAction;
   final VoidCallback shareAction;
+  final bool ownJoke;
 
   const JokeItemWidget(
       {super.key,
@@ -25,7 +27,8 @@ class JokeItemWidget extends StatelessWidget {
       required this.likeAction,
       required this.disLikeAction,
       required this.commentAction,
-      required this.shareAction});
+      required this.shareAction,
+      this.ownJoke = false});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +58,7 @@ class JokeItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-            GestureDetector(
+            ownJoke? const SizedBox() : GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {},
               child: const Row(
@@ -72,8 +75,7 @@ class JokeItemWidget extends StatelessWidget {
                   )
                 ],
               ),
-            ),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
+            )
           ],
         ),
         10.hSize,
@@ -199,9 +201,7 @@ class JokeItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         var index = imgUrls.indexOf(url);
-        Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondAnimation) {
-          return FadeTransition(opacity: animation, child: PhotoPreviewPage(imageUrls: imgUrls, index: index),);
-        }));
+        Navigator.pushNamed(context, AppRoutes.previewPage, arguments: PreviewArgument(index: index, images: imgUrls));
       },
       child: Hero(
         tag: url,

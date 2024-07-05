@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:fun_joke/app_routes.dart';
 import 'package:fun_joke/business/common/joke_video_player.dart';
 import 'package:fun_joke/business/common/photo_preview/photo_preivew_page.dart';
 import 'package:fun_joke/business/joke/publish_joke/publish_view_model.dart';
@@ -160,9 +161,7 @@ class _PublishJokePageState extends ConsumerState<PublishJokePage> {
                           final asset = selectedImageAssets[index];
                           return GestureDetector(
                             onTap: (){
-                              Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondAnimation) {
-                                return FadeTransition(opacity: animation, child: PhotoPreviewPage(imageUrls: imagePaths, index: index),);
-                              }));
+                              Navigator.pushNamed(context, AppRoutes.previewPage, arguments: PreviewArgument(index: index, images: imagePaths));
                             },
                               child: Hero(
                                 tag: imagePaths[index],

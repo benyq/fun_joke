@@ -41,11 +41,14 @@ class UserService {
 
   void save() async{
     final loginModel = _loginModel;
-    if (loginModel == null) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(_key, jsonEncode(loginModel));
   }
 
+  void logout() {
+    _loginModel = null;
+    save();
+  }
 
   static bool checkLogin(BuildContext context, {void Function(dynamic t)? onLogin}) {
     if (!UserService.instance.isLoggedIn) {

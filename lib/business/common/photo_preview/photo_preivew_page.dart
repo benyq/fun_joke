@@ -12,9 +12,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 class PhotoPreviewPage extends StatefulWidget {
   final List<String> imageUrls;
   final int index;
-
-  const PhotoPreviewPage(
-      {super.key, required this.imageUrls, required this.index});
+  const PhotoPreviewPage({super.key, required this.imageUrls, required this.index});
 
   @override
   State<PhotoPreviewPage> createState() => _PhotoPreviewPageState();
@@ -23,12 +21,14 @@ class PhotoPreviewPage extends StatefulWidget {
 class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   var _currentIndex = 0;
   late PageController _controller;
+  late final List<String> imageUrls;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.index;
-    _controller = PageController(initialPage: widget.index);
+    imageUrls = widget.imageUrls;
+    _controller = PageController(initialPage: _currentIndex);
   }
 
   @override
@@ -52,7 +52,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
           },
         ),
         title: Text(
-          '${_currentIndex + 1}/${widget.imageUrls.length}',
+          '${_currentIndex + 1}/${imageUrls.length}',
           style: const TextStyle(color: Colors.white),
         ),
         centerTitle: true,
@@ -60,7 +60,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
       backgroundColor: Colors.black,
       body: GestureDetector(
         onLongPress: () {
-          var realUrl = decodeMediaUrl(widget.imageUrls[_currentIndex]);
+          var realUrl = decodeMediaUrl(imageUrls[_currentIndex]);
           if (isNetworkImage(realUrl)) {
             _showSavePicBottomSheet();
           }
@@ -68,7 +68,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
         child: PhotoViewGallery.builder(
           scrollPhysics: const BouncingScrollPhysics(),
           builder: (BuildContext context, int index) {
-            return _getGalleryPageOptions(widget.imageUrls[index]);
+            return _getGalleryPageOptions(imageUrls[index]);
           },
           loadingBuilder: (context, event) => Center(
             child: SizedBox(
@@ -81,7 +81,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
               ),
             ),
           ),
-          itemCount: widget.imageUrls.length,
+          itemCount: imageUrls.length,
           onPageChanged: (index) {
             setState(() {
               _currentIndex = index;
@@ -145,7 +145,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   }
 
   void _saveImage() async {
-    var realUrl = decodeMediaUrl(widget.imageUrls[_currentIndex]);
+    var realUrl = decodeMediaUrl(imageUrls[_currentIndex]);
     var res = await saveNetworkImage(realUrl);
     if (res) {
       SmartDialog.showToast('保存成功');
@@ -154,3 +154,12 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
     }
   }
 }
+
+
+class PreviewArgument {
+  final int index;
+  final List<String> images;
+
+  PreviewArgument({required this.index, required this.images});
+}
+
