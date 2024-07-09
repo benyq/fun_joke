@@ -108,4 +108,9 @@ abstract class JokeService {
   @POST('/user/info/update')
   @FormUrlEncoded()
   Future<ApiResponse<dynamic>> updateUserInfo(@Field() String content, @Field() int type);
+
+  /// 获取划一划页面的推荐列表数据
+  @POST('/douyin/list')
+  @FormUrlEncoded()
+  Future<ApiResponse<List<JokeDetailModel>>> getSwapData();
 }

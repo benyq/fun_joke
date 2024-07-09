@@ -14,22 +14,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appDefaultBackgroundColor, toolbarHeight: 0,),
@@ -86,7 +74,5 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
 }
 

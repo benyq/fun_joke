@@ -23,6 +23,7 @@ mixin StateViewMixin {
 
     return Scaffold(
       appBar: buildAppBar(),
+      backgroundColor: backgroundColor(),
       body: child,
     );
   }
@@ -42,6 +43,10 @@ mixin StateViewMixin {
   }
 
   AppBar? buildAppBar() {
+    return null;
+  }
+
+  Color? backgroundColor() {
     return null;
   }
 }

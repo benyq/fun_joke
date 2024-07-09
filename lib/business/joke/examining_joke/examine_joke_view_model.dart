@@ -19,7 +19,7 @@ class ExamineJokeVM extends _$ExamineJokeVM with PageLogic{
     page = 0;
     final api = await ref.read(apiProvider);
     sendRefreshPagingRequest(()=> api.getAuditJokes(status, page), (data){
-      state = state.successState(ExamineJokeState(jokes: data!));
+      state = state.successState(ExamineJokeState(jokes: data));
     }, failCallback: () {
       state = state.errorState();
     }, emptyCallback: () {
@@ -30,7 +30,7 @@ class ExamineJokeVM extends _$ExamineJokeVM with PageLogic{
   void loadMoreData()async {
     final api = await ref.read(apiProvider);
     sendLoadMorePagingRequest(api.getAuditJokes(status, page), (data){
-      state = state.successState(ExamineJokeState(jokes: state.data!.jokes + data!));
+      state = state.successState(ExamineJokeState(jokes: state.data!.jokes + data));
     });
   }
 }

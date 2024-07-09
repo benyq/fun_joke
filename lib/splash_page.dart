@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_joke/app_providers/user_service.dart';
@@ -6,6 +7,7 @@ import 'package:fun_joke/business/joke/publish_joke/publish_joke_page.dart';
 import 'package:fun_joke/business/message/messsage_page.dart';
 import 'package:fun_joke/business/user/mine/mine_page.dart';
 import 'package:fun_joke/business/swap/swap_page.dart';
+import 'package:fun_joke/common/keep_alive_wrapper.dart';
 import 'package:fun_joke/utils/joke_log.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -26,9 +28,9 @@ class _SplashPageState extends State<SplashPage> {
   var _selectedIndex = 0;
 
   final pages = const [
-    HomePage(),
-    SwapPage(),
-    MessagePage(),
+    KeepAliveWrapper(child: HomePage()),
+    KeepAliveWrapper(child: SwapPage()),
+    KeepAliveWrapper(child: MessagePage()),
     MinePage(),
   ];
 
@@ -62,9 +64,12 @@ class _SplashPageState extends State<SplashPage> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(child: Icon(Icons.add), onPressed: (){
-        _showAddJokePage();
-      }, shape: const CircleBorder(), elevation: 0,),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        // _showAddJokePage();
+        Navigator.push(context, CupertinoPageRoute(builder: (context){
+          return const SwapPage();
+        }));
+      }, shape: const CircleBorder(), elevation: 0, backgroundColor: Colors.blueAccent,child: const Icon(Icons.add),),
       bottomNavigationBar: BottomAppBar(
         notchMargin: 5,
         height: 65.w,

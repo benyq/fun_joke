@@ -14,3 +14,10 @@ generateMd5(String data) {
   var digest = md5.convert(content);
   return hex.encode(digest.bytes);
 }
+
+
+extension StringExt on String {
+  String times(int times) {
+    return List.filled(times, this).join();
+  }
+}
